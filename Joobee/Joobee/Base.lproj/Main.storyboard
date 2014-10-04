@@ -235,6 +235,18 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" id="4JM-Rs-qqc"/>
+                    <connections>
+                        <outlet property="beaconOnePossession" destination="zRR-gz-w62" id="s93-NE-Fyr"/>
+                        <outlet property="beaconOneStatus" destination="caP-8F-VrD" id="YyX-Xa-jIN"/>
+                        <outlet property="beaconThreePossession" destination="dus-oC-v8o" id="NcH-ra-4y8"/>
+                        <outlet property="beaconThreeStatus" destination="o03-n4-wCC" id="G2r-xu-qhe"/>
+                        <outlet property="beaconTwoPossession" destination="7jF-bh-1s0" id="BCp-su-EPa"/>
+                        <outlet property="beaconTwoStatus" destination="WcY-lE-aSO" id="0Ir-PO-oB0"/>
+                        <outlet property="blueScore" destination="00c-0K-Fy3" id="V7s-2g-f9N"/>
+                        <outlet property="redScore" destination="fdS-mL-pCD" id="MJt-xk-jOP"/>
+                        <outlet property="teamSelection" destination="VT6-b2-uzF" id="WCs-FU-ZPk"/>
+                        <outlet property="timeRemaining" destination="7Jj-ZM-G9c" id="ZXh-Eq-Cku"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>

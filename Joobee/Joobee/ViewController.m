@@ -10,6 +10,20 @@
 
 @interface ViewController ()
 
+@property (strong, nonatomic) IBOutlet UILabel *timeRemaining;
+@property (strong, nonatomic) IBOutlet UILabel *blueScore;
+@property (strong, nonatomic) IBOutlet UILabel *redScore;
+@property (strong, nonatomic) IBOutlet UISegmentedControl *teamSelection;
+
+@property (strong, nonatomic) IBOutlet UIProgressView *beaconOneStatus;
+@property (strong, nonatomic) IBOutlet UILabel *beaconOnePossession;
+
+@property (strong, nonatomic) IBOutlet UIProgressView *beaconTwoStatus;
+@property (strong, nonatomic) IBOutlet UILabel *beaconTwoPossession;
+
+@property (strong, nonatomic) IBOutlet UIProgressView *beaconThreeStatus;
+@property (strong, nonatomic) IBOutlet UILabel *beaconThreePossession;
+
 @end
 
 @implementation ViewController
