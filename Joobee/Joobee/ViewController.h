@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ESTBeaconManager.h"
 
 @interface ViewController : UIViewController
 
