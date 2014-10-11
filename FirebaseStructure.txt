@@ -1,0 +1,57 @@
+Planned Firebase Structure
+
+Active Game Sessions
+	Game 1
+		Global Settings
+			Game Name
+			Beacons
+				b1 (#)
+				b2 (#)
+				b3 (#)
+			Teams
+				Team 1
+					Rounds Won (#)
+					Players
+						p1
+						p2
+						'85
+				Team 2
+
+ 					Rounds Won (#)
+					Players
+						p1
+						p2
+							
+
+// round data is cleared, set back to start values at beginning of each round
+ 		Round
+ 			Round Duration (#)
+			Time Left in Round (#)
+			Round Score
+				Team 1 (#)
+				Team 2 (#)
+			Flags
+				Flag 1
+					Captured By Team ( -1 or 1, 0 for neutral )
+					Nearby Players
+						Team 1
+							p1
+						Team 2
+							p1
+							p2
+				Flag 2
+					Captured By Team ( -1 or 1, 0 for neutral )
+					Nearby Players
+						Team 1
+							p1
+						Team 2
+							p1
+							p2
+				Flag 3
+					Captured By Team ( -1 or 1, 0 for neutral )
+					Nearby Players
+						Team 1
+							p1
+						Team 2
+							p1
+							p2
