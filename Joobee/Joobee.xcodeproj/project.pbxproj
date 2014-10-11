@@ -40,9 +40,6 @@
 		17D745A519D11986003AF0F0 /* JoobeeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JoobeeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		17D745AA19D11986003AF0F0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		17D745AB19D11986003AF0F0 /* JoobeeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JoobeeTests.m; sourceTree = "<group>"; };
-		21ECD1BC3FA52C69B2A393E8 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		2ABE60297A923CEEEAD69B0A /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		C1A02BB235B4908C0E4B1765 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,7 +66,6 @@
 				17D7458E19D11986003AF0F0 /* Joobee */,
 				17D745A819D11986003AF0F0 /* JoobeeTests */,
 				17D7458D19D11986003AF0F0 /* Products */,
-				616BF92D63E7D09CB4D2DB6A /* Pods */,
 				594A7C2496327814C08E6F55 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -127,18 +123,8 @@
 		594A7C2496327814C08E6F55 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C1A02BB235B4908C0E4B1765 /* libPods.a */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		616BF92D63E7D09CB4D2DB6A /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				21ECD1BC3FA52C69B2A393E8 /* Pods.debug.xcconfig */,
-				2ABE60297A923CEEEAD69B0A /* Pods.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -151,7 +137,6 @@
 				17D7458819D11986003AF0F0 /* Sources */,
 				17D7458919D11986003AF0F0 /* Frameworks */,
 				17D7458A19D11986003AF0F0 /* Resources */,
-				47A760FEDB425CEC02D0F456 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -236,24 +221,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		47A760FEDB425CEC02D0F456 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		17D7458819D11986003AF0F0 /* Sources */ = {
@@ -382,7 +349,6 @@
 		};
 		17D745B019D11986003AF0F0 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 21ECD1BC3FA52C69B2A393E8 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				HEADER_SEARCH_PATHS = "\"${PODS_ROOT}/Headers/Public\"";
@@ -408,7 +374,6 @@
 		};
 		17D745B119D11986003AF0F0 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2ABE60297A923CEEEAD69B0A /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				HEADER_SEARCH_PATHS = "\"${PODS_ROOT}/Headers/Public\"";
