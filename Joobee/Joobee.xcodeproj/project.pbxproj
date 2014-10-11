@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1766E5F619E9BD0D004B3249 /* libEstimoteSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1766E5F519E9BD0D004B3249 /* libEstimoteSDK.a */; };
+		1766E5F819E9BD25004B3249 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1766E5F719E9BD25004B3249 /* CoreBluetooth.framework */; };
+		1766E5FA19E9BD2F004B3249 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1766E5F919E9BD2F004B3249 /* CoreLocation.framework */; };
+		1766E5FC19E9BD39004B3249 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1766E5FB19E9BD39004B3249 /* SystemConfiguration.framework */; };
 		17D7459219D11986003AF0F0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D7459119D11986003AF0F0 /* main.m */; };
 		17D7459519D11986003AF0F0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D7459419D11986003AF0F0 /* AppDelegate.m */; };
 		17D7459819D11986003AF0F0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D7459719D11986003AF0F0 /* ViewController.m */; };
@@ -27,6 +31,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1766E5EE19E9BD0D004B3249 /* ESTBeacon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTBeacon.h; sourceTree = "<group>"; };
+		1766E5EF19E9BD0D004B3249 /* ESTBeaconDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTBeaconDefinitions.h; sourceTree = "<group>"; };
+		1766E5F019E9BD0D004B3249 /* ESTBeaconFirmwareInfoVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTBeaconFirmwareInfoVO.h; sourceTree = "<group>"; };
+		1766E5F119E9BD0D004B3249 /* ESTBeaconFirmwareVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTBeaconFirmwareVO.h; sourceTree = "<group>"; };
+		1766E5F219E9BD0D004B3249 /* ESTBeaconManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTBeaconManager.h; sourceTree = "<group>"; };
+		1766E5F319E9BD0D004B3249 /* ESTBeaconRegion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTBeaconRegion.h; sourceTree = "<group>"; };
+		1766E5F419E9BD0D004B3249 /* ESTBeaconVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESTBeaconVO.h; sourceTree = "<group>"; };
+		1766E5F519E9BD0D004B3249 /* libEstimoteSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libEstimoteSDK.a; sourceTree = "<group>"; };
+		1766E5F719E9BD25004B3249 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		1766E5F919E9BD2F004B3249 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		1766E5FB19E9BD39004B3249 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		17D7458C19D11986003AF0F0 /* Joobee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Joobee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17D7459019D11986003AF0F0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		17D7459119D11986003AF0F0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -47,6 +62,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1766E5FC19E9BD39004B3249 /* SystemConfiguration.framework in Frameworks */,
+				1766E5FA19E9BD2F004B3249 /* CoreLocation.framework in Frameworks */,
+				1766E5F819E9BD25004B3249 /* CoreBluetooth.framework in Frameworks */,
+				1766E5F619E9BD0D004B3249 /* libEstimoteSDK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,6 +79,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1766E5EC19E9BD0D004B3249 /* EstimoteSDK */ = {
+			isa = PBXGroup;
+			children = (
+				1766E5ED19E9BD0D004B3249 /* Headers */,
+				1766E5F519E9BD0D004B3249 /* libEstimoteSDK.a */,
+			);
+			path = EstimoteSDK;
+			sourceTree = "<group>";
+		};
+		1766E5ED19E9BD0D004B3249 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				1766E5EE19E9BD0D004B3249 /* ESTBeacon.h */,
+				1766E5EF19E9BD0D004B3249 /* ESTBeaconDefinitions.h */,
+				1766E5F019E9BD0D004B3249 /* ESTBeaconFirmwareInfoVO.h */,
+				1766E5F119E9BD0D004B3249 /* ESTBeaconFirmwareVO.h */,
+				1766E5F219E9BD0D004B3249 /* ESTBeaconManager.h */,
+				1766E5F319E9BD0D004B3249 /* ESTBeaconRegion.h */,
+				1766E5F419E9BD0D004B3249 /* ESTBeaconVO.h */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
 		17D7458319D11986003AF0F0 = {
 			isa = PBXGroup;
 			children = (
@@ -123,6 +165,10 @@
 		594A7C2496327814C08E6F55 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1766E5FB19E9BD39004B3249 /* SystemConfiguration.framework */,
+				1766E5F919E9BD2F004B3249 /* CoreLocation.framework */,
+				1766E5F719E9BD25004B3249 /* CoreBluetooth.framework */,
+				1766E5EC19E9BD0D004B3249 /* EstimoteSDK */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -354,7 +400,7 @@
 				HEADER_SEARCH_PATHS = "\"${PODS_ROOT}/Headers/Public\"";
 				INFOPLIST_FILE = Joobee/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/EstimoteSDK";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-framework",
@@ -379,7 +425,7 @@
 				HEADER_SEARCH_PATHS = "\"${PODS_ROOT}/Headers/Public\"";
 				INFOPLIST_FILE = Joobee/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/EstimoteSDK";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-framework",
