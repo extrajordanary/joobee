@@ -17,8 +17,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mxh-wo-xZ7">
-                                <rect key="frame" x="0.0" y="65" width="200" height="195"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mxh-wo-xZ7">
+                                <rect key="frame" x="0.0" y="65" width="200" height="416"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Beacon 1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YdE-hF-1YU">
                                         <rect key="frame" x="69" y="30" width="63" height="21"/>
@@ -52,20 +52,48 @@
                                             </mask>
                                         </variation>
                                     </progressView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SxL-1B-bip">
+                                        <rect key="frame" x="78" y="209" width="45" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="fuz-15-NqZ"/>
+                                        </constraints>
+                                        <state key="normal" title="Attach">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="attachFlag1:" destination="vXZ-lx-hvc" eventType="touchDown" id="gFs-lo-Dk0"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iqW-y3-H0T">
+                                        <rect key="frame" x="76" y="264" width="49" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="4ua-fU-qVE"/>
+                                        </constraints>
+                                        <state key="normal" title="Detach">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="detachFlag1:" destination="vXZ-lx-hvc" eventType="touchDown" id="A8E-GB-HN0"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="0.90445872949999995" blue="0.57145825559999996" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="YdE-hF-1YU" firstAttribute="top" secondItem="Mxh-wo-xZ7" secondAttribute="top" constant="30" id="0sa-zY-VKk"/>
                                     <constraint firstAttribute="trailing" secondItem="caP-8F-VrD" secondAttribute="trailing" constant="15" id="2VQ-Tj-sq2"/>
                                     <constraint firstItem="zRR-gz-w62" firstAttribute="centerX" secondItem="caP-8F-VrD" secondAttribute="centerX" id="3Fb-3X-oGb"/>
+                                    <constraint firstAttribute="centerX" secondItem="SxL-1B-bip" secondAttribute="centerX" id="C8P-ZJ-hAt"/>
                                     <constraint firstItem="caP-8F-VrD" firstAttribute="leading" secondItem="Mxh-wo-xZ7" secondAttribute="leading" constant="15" id="Lkf-yc-bGn"/>
+                                    <constraint firstAttribute="centerX" secondItem="iqW-y3-H0T" secondAttribute="centerX" id="bvS-sa-TH1"/>
                                     <constraint firstAttribute="centerX" secondItem="YdE-hF-1YU" secondAttribute="centerX" id="dsg-ZU-WZY"/>
                                     <constraint firstItem="zRR-gz-w62" firstAttribute="top" secondItem="YdE-hF-1YU" secondAttribute="bottom" constant="30" id="qFT-fJ-0E5"/>
+                                    <constraint firstItem="iqW-y3-H0T" firstAttribute="top" secondItem="SxL-1B-bip" secondAttribute="bottom" constant="25" id="vMl-3l-6QK"/>
                                     <constraint firstItem="caP-8F-VrD" firstAttribute="top" secondItem="zRR-gz-w62" secondAttribute="bottom" constant="30" id="wkR-KC-wOb"/>
+                                    <constraint firstItem="SxL-1B-bip" firstAttribute="top" secondItem="caP-8F-VrD" secondAttribute="bottom" constant="75" id="x3M-2x-y3v"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TrS-JP-Wix">
-                                <rect key="frame" x="200" y="65" width="200" height="195"/>
+                                <rect key="frame" x="200" y="65" width="200" height="416"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Beacon 2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2jX-dR-QhF">
                                         <rect key="frame" x="69" y="30" width="63" height="21"/>
@@ -110,8 +138,8 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CZi-LP-4JI">
-                                <rect key="frame" x="400" y="65" width="200" height="195"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CZi-LP-4JI">
+                                <rect key="frame" x="400" y="65" width="200" height="416"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Beacon 3" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0tD-QW-XHE">
                                         <rect key="frame" x="69" y="30" width="63" height="21"/>

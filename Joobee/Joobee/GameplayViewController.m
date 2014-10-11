@@ -7,6 +7,7 @@
 //
 
 #import "GameplayViewController.h"
+#import <Firebase/Firebase.h>
 
 @interface GameplayViewController ()
 
@@ -26,11 +27,22 @@
 
 @end
 
-@implementation GameplayViewController
+static NSString* const kBaseURL = @"https://blistering-heat-4085.firebaseio.com/";
+static NSString* const kGameplay = @"GameSession/Gameplay/";
+
+
+@implementation GameplayViewController {
+    NSDictionary *thisPlayer;
+    NSString *playerName;
+    NSString *myTeam;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    playerName = [NSString stringWithFormat:@"player%i",rand()];
+    thisPlayer = @{ playerName : playerName, };
+    myTeam = @"Team1";
 }
 
 - (void)didReceiveMemoryWarning {
@@ -38,4 +50,29 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Game Logic
+
+-(void)addSelfToFlag:(int)flagNumber {
+    // make call to FB and add self to Flag#, NearbyPlayers, [myTeam]
+    NSString *url = [NSString stringWithFormat:@"%@%@Flags/Flag%i/NearbyPlayers/%@",kBaseURL,kGameplay,flagNumber,myTeam];
+    Firebase* nearFlag = [[Firebase alloc] initWithUrl:url];
+    [nearFlag updateChildValues:thisPlayer];
+}
+
+-(void)removeSelfFromFlag:(int)flagNumber {
+    NSString *url = [NSString stringWithFormat:@"%@%@Flags/Flag%i/NearbyPlayers/%@",kBaseURL,kGameplay,flagNumber,myTeam];
+    Firebase* nearFlag = [[Firebase alloc] initWithUrl:url];
+    Firebase* leaveFlag = [nearFlag childByAppendingPath:[NSString stringWithFormat:@"/%@",playerName]];
+    [leaveFlag removeValue];
+}
+
+
+
+- (IBAction)attachFlag1:(id)sender {
+    [self addSelfToFlag:1];
+}
+
+- (IBAction)detachFlag1:(id)sender {
+    [self removeSelfFromFlag:1];
+}
 @end
