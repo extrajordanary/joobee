@@ -50,8 +50,18 @@ static NSString* const kGameplay = @"GameSession/Gameplay/";
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Game Logic
+#pragma mark - Temp UI Buttons
 
+- (IBAction)attachFlag1:(id)sender {
+    [self addSelfToFlag:1];
+}
+
+- (IBAction)detachFlag1:(id)sender {
+    [self removeSelfFromFlag:1];
+}
+
+#pragma mark - Flags
+// methods used by all players
 -(void)addSelfToFlag:(int)flagNumber {
     // make call to FB and add self to Flag#, NearbyPlayers, [myTeam]
     NSString *url = [NSString stringWithFormat:@"%@%@Flags/Flag%i/NearbyPlayers/%@",kBaseURL,kGameplay,flagNumber,myTeam];
@@ -66,13 +76,17 @@ static NSString* const kGameplay = @"GameSession/Gameplay/";
     [leaveFlag removeValue];
 }
 
+#pragma mark - Game Logic
+// methods only run by the game host
+// at time interval X
+// for each flag
+// get number of NearbyPlayers from each team
+// get net difference (Team1 - Team2)
+// positive number means Team1 gains control, negative Team2, 0 no change
+// add net diff to flagStatus
+// for each flag
+// if flagStatus is >25, Team1 controls the flag and gains points
+// "" < -25, Team2 ""
+// else no one controls it and no points are awarded
 
-
-- (IBAction)attachFlag1:(id)sender {
-    [self addSelfToFlag:1];
-}
-
-- (IBAction)detachFlag1:(id)sender {
-    [self removeSelfFromFlag:1];
-}
 @end
