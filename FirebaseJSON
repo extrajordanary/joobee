@@ -1,0 +1,46 @@
+{
+    "GameSession": {
+        "Settings": {
+            "GameName": "name",
+            "Beacons": ["13372", "15271", "20062"],
+            "Teams": {
+                "Team1": {
+                    "RoundsWon": "number",
+                    "Players": []
+                },
+                "Team2": {
+                    "RoundsWon": "number",
+                    "Players": []
+                }
+            }
+        },
+        "Gameplay": {
+            "RoundDuration": "duration",
+            "TimeRemaining": "timeRemaining",
+            "RoundScore": ["team1", "team2"],
+            "Flags": {
+                "Flag1": {
+                    "ControllingTeam": "teamNumber",
+                    "NearbyPlayers": {
+                        "Team1": [""],
+                        "Team2": [""]
+                    }
+                },
+                "Flag2": {
+                    "ControllingTeam": "teamNumber",
+                    "NearbyPlayers": {
+                        "Team1": [""],
+                        "Team2": [""]
+                    }
+                },
+                "Flag3": {
+                    "ControllingTeam": "teamNumber",
+                    "NearbyPlayers": {
+                        "Team1": [""],
+                        "Team2": [""]
+                    }
+                }
+            }
+        }
+    }
+}
