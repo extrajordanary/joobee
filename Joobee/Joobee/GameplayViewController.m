@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Byjor. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "GameplayViewController.h"
 
-@interface ViewController ()
+@interface GameplayViewController ()
 
 @property (strong, nonatomic) IBOutlet UILabel *timeRemaining;
 @property (strong, nonatomic) IBOutlet UILabel *blueScore;
@@ -26,7 +26,7 @@
 
 @end
 
-@implementation ViewController
+@implementation GameplayViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
