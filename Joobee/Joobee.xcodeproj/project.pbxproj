@@ -11,6 +11,11 @@
 		1766E5F819E9BD25004B3249 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1766E5F719E9BD25004B3249 /* CoreBluetooth.framework */; };
 		1766E5FA19E9BD2F004B3249 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1766E5F919E9BD2F004B3249 /* CoreLocation.framework */; };
 		1766E5FC19E9BD39004B3249 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1766E5FB19E9BD39004B3249 /* SystemConfiguration.framework */; };
+		1766E5FE19E9BFF2004B3249 /* Firebase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1766E5FD19E9BFF2004B3249 /* Firebase.framework */; };
+		1766E60019E9C029004B3249 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1766E5FF19E9C029004B3249 /* libicucore.dylib */; };
+		1766E60219E9C03A004B3249 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1766E60119E9C03A004B3249 /* CFNetwork.framework */; };
+		1766E60419E9C049004B3249 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1766E60319E9C049004B3249 /* libc++.dylib */; };
+		1766E60619E9C055004B3249 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1766E60519E9C055004B3249 /* Security.framework */; };
 		17D7459219D11986003AF0F0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D7459119D11986003AF0F0 /* main.m */; };
 		17D7459519D11986003AF0F0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D7459419D11986003AF0F0 /* AppDelegate.m */; };
 		17D7459819D11986003AF0F0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D7459719D11986003AF0F0 /* ViewController.m */; };
@@ -42,6 +47,11 @@
 		1766E5F719E9BD25004B3249 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		1766E5F919E9BD2F004B3249 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		1766E5FB19E9BD39004B3249 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		1766E5FD19E9BFF2004B3249 /* Firebase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Firebase.framework; sourceTree = "<group>"; };
+		1766E5FF19E9C029004B3249 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		1766E60119E9C03A004B3249 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		1766E60319E9C049004B3249 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		1766E60519E9C055004B3249 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		17D7458C19D11986003AF0F0 /* Joobee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Joobee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17D7459019D11986003AF0F0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		17D7459119D11986003AF0F0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -62,6 +72,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1766E60619E9C055004B3249 /* Security.framework in Frameworks */,
+				1766E60419E9C049004B3249 /* libc++.dylib in Frameworks */,
+				1766E60219E9C03A004B3249 /* CFNetwork.framework in Frameworks */,
+				1766E60019E9C029004B3249 /* libicucore.dylib in Frameworks */,
+				1766E5FE19E9BFF2004B3249 /* Firebase.framework in Frameworks */,
 				1766E5FC19E9BD39004B3249 /* SystemConfiguration.framework in Frameworks */,
 				1766E5FA19E9BD2F004B3249 /* CoreLocation.framework in Frameworks */,
 				1766E5F819E9BD25004B3249 /* CoreBluetooth.framework in Frameworks */,
@@ -165,6 +180,11 @@
 		594A7C2496327814C08E6F55 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1766E60519E9C055004B3249 /* Security.framework */,
+				1766E60319E9C049004B3249 /* libc++.dylib */,
+				1766E60119E9C03A004B3249 /* CFNetwork.framework */,
+				1766E5FF19E9C029004B3249 /* libicucore.dylib */,
+				1766E5FD19E9BFF2004B3249 /* Firebase.framework */,
 				1766E5FB19E9BD39004B3249 /* SystemConfiguration.framework */,
 				1766E5F919E9BD2F004B3249 /* CoreLocation.framework */,
 				1766E5F719E9BD25004B3249 /* CoreBluetooth.framework */,
@@ -397,6 +417,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				HEADER_SEARCH_PATHS = "\"${PODS_ROOT}/Headers/Public\"";
 				INFOPLIST_FILE = Joobee/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -422,6 +446,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				HEADER_SEARCH_PATHS = "\"${PODS_ROOT}/Headers/Public\"";
 				INFOPLIST_FILE = Joobee/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
