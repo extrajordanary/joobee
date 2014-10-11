@@ -40,7 +40,7 @@ static NSString* const kGameplay = @"GameSession/Gameplay/";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    playerName = [NSString stringWithFormat:@"player%i",rand()];
+    playerName = [NSString stringWithFormat:@"player%i",arc4random_uniform(500)];
     thisPlayer = @{ playerName : playerName, };
     myTeam = @"Team1";
 }
