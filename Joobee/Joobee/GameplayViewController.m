@@ -45,9 +45,19 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     // Do any additional setup after loading the view, typically from a nib.
     playerName = [NSString stringWithFormat:@"player%i",arc4random_uniform(500)];
     thisPlayer = @{ playerName : playerName, };
+    
     myTeam = @"Team1";
     
     [self subscribeToGameUpdates];
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    if (self.teamSelection.selectedSegmentIndex) {
+        myTeam = @"Team2";
+    } else myTeam = @"Team1";
+    NSLog(myTeam);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -76,6 +86,13 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
 
 - (IBAction)updateGameState:(id)sender {
     [self updateGameState];
+}
+
+- (IBAction)selectTeam:(id)sender {
+    if (self.teamSelection.selectedSegmentIndex) {
+        myTeam = @"Team2";
+    } else myTeam = @"Team1";
+    NSLog(myTeam);
 }
 
 #pragma mark - UI
@@ -205,7 +222,7 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     Firebase *updateScores = [[Firebase alloc] initWithUrl:url];
     [updateScores updateChildValues:newTeamScores];
     
-    [self updateScoreForTeamOne:score1 teamTwo:score2]; 
+    [self updateScoreForTeamOne:score1 teamTwo:score2];
 }
 
 @end

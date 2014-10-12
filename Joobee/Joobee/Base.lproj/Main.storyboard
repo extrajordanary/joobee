@@ -185,6 +185,9 @@
                                     <segment title="Red"/>
                                     <segment title="Blue"/>
                                 </segments>
+                                <connections>
+                                    <action selector="selectTeam:" destination="vXZ-lx-hvc" eventType="valueChanged" id="J4J-BF-5iR"/>
+                                </connections>
                             </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="T1: 0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fdS-mL-pCD">
                                 <rect key="frame" x="31" y="569" width="80" height="21"/>

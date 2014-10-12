@@ -3,57 +3,68 @@
     "Gameplay" : {
       "Flags" : {
         "Flag1" : {
-          "ControllingTeam" : "teamNumber",
+          "ControlStatus" : 0,
+          "ControllingTeam" : "-",
           "NearbyPlayers" : {
             "Team1" : {
-                "player" : "player"
-                },
+              "player" : "player"
+            },
             "Team2" : {
-                "player" : "player"
-                }
-          },
-          "ControlStatus" : "0"
+              "player" : "player"
+            }
+          }
         },
         "Flag2" : {
-          "ControllingTeam" : "teamNumber",
+          "ControlStatus" : 0,
+          "ControllingTeam" : "-",
           "NearbyPlayers" : {
             "Team1" : {
-                "player" : "player"
-                },
+              "player" : "player"
+            },
             "Team2" : {
-                "player" : "player"
-                }
-          },
-          "ControlStatus" : "0"
+              "player" : "player"
+            }
+          }
         },
         "Flag3" : {
-          "ControllingTeam" : "teamNumber",
+          "ControlStatus" : 0,
+          "ControllingTeam" : "-",
           "NearbyPlayers" : {
             "Team1" : {
-                "player" : "player"
-                },
+              "player" : "player"
+            },
             "Team2" : {
-                "player" : "player"
-                }
-          },
-          "ControlStatus" : "0"
+              "player" : "player"
+            }
+          }
         }
       },
       "RoundDuration" : "duration",
-      "RoundScore" : [ "team1", "team2" ],
+      "RoundScore" : {
+        "Team1" : 0,
+        "Team2" : 0
+      },
       "TimeRemaining" : "timeRemaining"
     },
     "Settings" : {
-      "Beacons" : [ "13372", "15271", "20062" ],
+      "Beacons" : {
+        "Flag1" : 13372,
+        "Flag2" : 15271,
+        "Flag3" : 20062
+      },
       "GameName" : "name",
       "Teams" : {
         "Team1" : {
-          "Players" : [ "" ],
-          "RoundsWon" : "number"
+          "Players" : {
+            "player" : "player"
+          },
+          "RoundsWon" : 0
         },
         "Team2" : {
-          "Players" : [ "" ],
-          "RoundsWon" : "number"
+          "Players" : {
+            "player" : "player"
+          },
+          "RoundsWon" : 0
         }
       }
     }
