@@ -74,7 +74,7 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
         NSLog(@"%@", error.description);
     }];
 }
-#pragma mark - Temp UI Buttons
+#pragma mark - UI Buttons
 
 - (IBAction)attachFlag1:(id)sender {
     [self addSelfToFlag:1];
