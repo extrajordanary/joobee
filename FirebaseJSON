@@ -5,24 +5,36 @@
         "Flag1" : {
           "ControllingTeam" : "teamNumber",
           "NearbyPlayers" : {
-            "Team1" : [ "" ],
-            "Team2" : [ "" ]
+            "Team1" : {
+                "player" : "player"
+                },
+            "Team2" : {
+                "player" : "player"
+                }
           },
           "ControlStatus" : "0"
         },
         "Flag2" : {
           "ControllingTeam" : "teamNumber",
           "NearbyPlayers" : {
-            "Team1" : [ "" ],
-            "Team2" : [ "" ]
+            "Team1" : {
+                "player" : "player"
+                },
+            "Team2" : {
+                "player" : "player"
+                }
           },
           "ControlStatus" : "0"
         },
         "Flag3" : {
           "ControllingTeam" : "teamNumber",
           "NearbyPlayers" : {
-            "Team1" : [ "" ],
-            "Team2" : [ "" ]
+            "Team1" : {
+                "player" : "player"
+                },
+            "Team2" : {
+                "player" : "player"
+                }
           },
           "ControlStatus" : "0"
         }
