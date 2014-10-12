@@ -78,7 +78,18 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     [self updateGameState];
 }
 
-#pragma mark - Flags
+#pragma mark - UI
+-(void)updateFlagProgressBar:(int)flagNumber withValue:(int)value{
+    float flagControlUIStatus = ((float)value/2 + 50)/100;
+    
+    if (flagNumber == 1) {
+        self.beaconOneStatus.progress = flagControlUIStatus;
+    } else if (flagNumber == 2) {
+        self.beaconTwoStatus.progress = flagControlUIStatus;
+    } else self.beaconThreeStatus.progress = flagControlUIStatus;
+}
+
+#pragma mark - Flag Proximity
 // methods used by all players
 -(void)addSelfToFlag:(int)flagNumber {
     // make call to FB and add self to Flag#, NearbyPlayers, [myTeam]
@@ -131,14 +142,8 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     NSString *url = [NSString stringWithFormat:@"%@Flag%i",kFlags,flagNumber];
     Firebase *updateFlag = [[Firebase alloc] initWithUrl:url];
     [updateFlag updateChildValues:newControlStatus];
-    
-    float flagControlUIStatus = ((float)currentControlStatusValue/2 + 50)/100;
-    
-    if (flagNumber == 1) {
-        self.beaconOneStatus.progress = flagControlUIStatus;
-    } else if (flagNumber == 2) {
-        self.beaconTwoStatus.progress = flagControlUIStatus;
-    } else self.beaconThreeStatus.progress = flagControlUIStatus;
+
+    [self updateFlagProgressBar:flagNumber withValue:currentControlStatusValue];
 }
 
 -(void)updateFlagControl:(int)flagNumber {
