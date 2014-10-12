@@ -39,10 +39,11 @@
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="caP-8F-VrD" userLabel="Progress View 1">
-                                        <rect key="frame" x="15" y="132" width="170" height="2"/>
+                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" misplaced="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="caP-8F-VrD" userLabel="Progress View 1">
+                                        <rect key="frame" x="15" y="132" width="170" height="10"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="100" id="Ncd-E3-eh4"/>
+                                            <constraint firstAttribute="height" constant="10" id="VAN-Ss-U8l"/>
                                         </constraints>
                                         <color key="progressTintColor" red="1" green="0.096199630090000002" blue="0.176075286" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="trackTintColor" red="0.083179518090000001" green="0.61142557959999999" blue="0.84152088989999996" alpha="1" colorSpace="calibratedRGB"/>
@@ -52,7 +53,7 @@
                                             </mask>
                                         </variation>
                                     </progressView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SxL-1B-bip">
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SxL-1B-bip">
                                         <rect key="frame" x="78" y="209" width="45" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="fuz-15-NqZ"/>
@@ -64,7 +65,7 @@
                                             <action selector="attachFlag1:" destination="vXZ-lx-hvc" eventType="touchDown" id="gFs-lo-Dk0"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iqW-y3-H0T">
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iqW-y3-H0T">
                                         <rect key="frame" x="76" y="264" width="49" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="4ua-fU-qVE"/>
@@ -106,10 +107,11 @@
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="WcY-lE-aSO" userLabel="Progress View 2">
-                                        <rect key="frame" x="15" y="132" width="170" height="2"/>
+                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" misplaced="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="WcY-lE-aSO" userLabel="Progress View 2">
+                                        <rect key="frame" x="15" y="132" width="170" height="10"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="100" id="1R1-Ed-56V"/>
+                                            <constraint firstAttribute="height" constant="10" id="6jo-b2-FoW"/>
                                         </constraints>
                                         <color key="progressTintColor" red="1" green="0.096199630090000002" blue="0.176075286" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="trackTintColor" red="0.083179518090000001" green="0.61142557959999999" blue="0.84152088989999996" alpha="1" colorSpace="calibratedRGB"/>
@@ -152,8 +154,11 @@
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="o03-n4-wCC" userLabel="Progress View 3">
-                                        <rect key="frame" x="15" y="132" width="170" height="2"/>
+                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" misplaced="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="o03-n4-wCC" userLabel="Progress View 3">
+                                        <rect key="frame" x="15" y="132" width="170" height="10"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="10" id="BaY-tz-BIS"/>
+                                        </constraints>
                                         <color key="progressTintColor" red="1" green="0.096199630090000002" blue="0.176075286" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="trackTintColor" red="0.083179518090000001" green="0.61142557959999999" blue="0.84152088989999996" alpha="1" colorSpace="calibratedRGB"/>
                                     </progressView>
