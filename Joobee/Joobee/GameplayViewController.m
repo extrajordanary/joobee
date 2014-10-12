@@ -113,7 +113,6 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     int team1Count = 0;
     int team2Count = 0;
     for (int i = 1; i < 3; i++) {
-//        (int)[[gameState[@"Flags"][@"Flag1"][@"NearbyPlayers"][@"Team1"] allKeys] count]
         NSString *theTeam = [NSString stringWithFormat:@"Team%i",i];
         NSDictionary *nearbyPlayers = gameState[@"Flags"][theFlag][@"NearbyPlayers"][theTeam];
         int count = (int)[[nearbyPlayers allKeys] count];
@@ -137,6 +136,25 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     // if flagStatus is >25, Team1 controls the flag
     // "" < -25, Team2 ""
     // else no one controls it
+    NSString *theFlag = [NSString stringWithFormat:@"Flag%i",flagNumber];
+    int currentControlStatusValue = [[gameState[@"Flags"][theFlag] objectForKey:@"ControlStatus"] intValue];
+    NSString *controllingTeam;
+    if (currentControlStatusValue > 25) {
+        controllingTeam = @"Team1";
+    } else if (currentControlStatusValue < -25) {
+        controllingTeam = @"Team2";
+    } else controllingTeam = @"-";
+    
+    NSDictionary *newControllingTeam = @{ @"ControllingTeam" : controllingTeam };
+    NSString *url = [NSString stringWithFormat:@"%@Flag%i",kFlags,flagNumber];
+    Firebase *updateFlag = [[Firebase alloc] initWithUrl:url];
+    [updateFlag updateChildValues:newControllingTeam];
+    
+    if (flagNumber == 1) {
+        self.beaconOnePossession.text = controllingTeam;
+    } else if (flagNumber == 2) {
+        self.beaconTwoPossession.text = controllingTeam;
+    } else self.beaconThreePossession.text = controllingTeam;
 }
 
 -(void)updateTeamPoints {
