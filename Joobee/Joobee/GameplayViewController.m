@@ -29,9 +29,12 @@
 
 static NSString* const kBaseURL = @"https://blistering-heat-4085.firebaseio.com/";
 static NSString* const kGameplay = @"GameSession/Gameplay/";
+static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/GameSession/Gameplay/Flags/";
+
 
 
 @implementation GameplayViewController {
+    NSDictionary *gameState;
     NSDictionary *thisPlayer;
     NSString *playerName;
     NSString *myTeam;
@@ -43,6 +46,8 @@ static NSString* const kGameplay = @"GameSession/Gameplay/";
     playerName = [NSString stringWithFormat:@"player%i",arc4random_uniform(500)];
     thisPlayer = @{ playerName : playerName, };
     myTeam = @"Team1";
+    
+    [self subscribeToFlagUpdates];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -50,6 +55,15 @@ static NSString* const kGameplay = @"GameSession/Gameplay/";
     // Dispose of any resources that can be recreated.
 }
 
+-(void)subscribeToFlagUpdates {
+    Firebase *ref = [[Firebase alloc] initWithUrl:kFlags];
+    [ref observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        gameState = snapshot.value;
+        NSLog(@"Game State: %@", gameState);
+    } withCancelBlock:^(NSError *error) {
+        NSLog(@"%@", error.description);
+    }];
+}
 #pragma mark - Temp UI Buttons
 
 - (IBAction)attachFlag1:(id)sender {
@@ -64,13 +78,13 @@ static NSString* const kGameplay = @"GameSession/Gameplay/";
 // methods used by all players
 -(void)addSelfToFlag:(int)flagNumber {
     // make call to FB and add self to Flag#, NearbyPlayers, [myTeam]
-    NSString *url = [NSString stringWithFormat:@"%@%@Flags/Flag%i/NearbyPlayers/%@",kBaseURL,kGameplay,flagNumber,myTeam];
+    NSString *url = [NSString stringWithFormat:@"%@/Flag%i/NearbyPlayers/%@",kFlags,flagNumber,myTeam];
     Firebase* nearFlag = [[Firebase alloc] initWithUrl:url];
     [nearFlag updateChildValues:thisPlayer];
 }
 
 -(void)removeSelfFromFlag:(int)flagNumber {
-    NSString *url = [NSString stringWithFormat:@"%@%@Flags/Flag%i/NearbyPlayers/%@",kBaseURL,kGameplay,flagNumber,myTeam];
+    NSString *url = [NSString stringWithFormat:@"%@/Flag%i/NearbyPlayers/%@",kFlags,flagNumber,myTeam];
     Firebase* nearFlag = [[Firebase alloc] initWithUrl:url];
     Firebase* leaveFlag = [nearFlag childByAppendingPath:[NSString stringWithFormat:@"/%@",playerName]];
     [leaveFlag removeValue];
@@ -78,15 +92,39 @@ static NSString* const kGameplay = @"GameSession/Gameplay/";
 
 #pragma mark - Game Logic
 // methods only run by the game host
-// at time interval X
-// for each flag
-// get number of NearbyPlayers from each team
-// get net difference (Team1 - Team2)
-// positive number means Team1 gains control, negative Team2, 0 no change
-// add net diff to flagStatus
-// for each flag
-// if flagStatus is >25, Team1 controls the flag and gains points
-// "" < -25, Team2 ""
-// else no one controls it and no points are awarded
+-(void)updateGameState {
+    for (int i = 1; i < 4; i++) {
+        [self updateFlagStatus:i];
+        [self updateFlagControl:i];
+    }
+    [self updateTeamPoints];
+}
+
+-(void)updateFlagStatus:(int)flagNumber {
+    // get number of NearbyPlayers from each team
+    // get net difference (Team1 - Team2)
+    // positive number means Team1 gains control, negative Team2, 0 no change
+    // add net diff to flagStatus
+    for (int i = 1; i < 3; i++) {
+        NSString *url = [NSString stringWithFormat:@"%@/Flag%i/NearbyPlayers/Team%i",kFlags,flagNumber,i];
+        Firebase *ref = [[Firebase alloc] initWithUrl:url];
+        [ref observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+            NSLog(@"Team %i Players Near Flag %i: %@", i, flagNumber, snapshot.value);
+        } withCancelBlock:^(NSError *error) {
+            NSLog(@"%@", error.description);
+        }];
+    }
+}
+
+-(void)updateFlagControl:(int)flagNumber {
+    // if flagStatus is >25, Team1 controls the flag
+    // "" < -25, Team2 ""
+    // else no one controls it
+}
+
+-(void)updateTeamPoints {
+    // for each flag controlled, teams gain X points
+    
+}
 
 @end

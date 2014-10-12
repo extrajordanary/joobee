@@ -1,46 +1,49 @@
 {
-    "GameSession": {
-        "Settings": {
-            "GameName": "name",
-            "Beacons": ["13372", "15271", "20062"],
-            "Teams": {
-                "Team1": {
-                    "RoundsWon": "number",
-                    "Players": []
-                },
-                "Team2": {
-                    "RoundsWon": "number",
-                    "Players": []
-                }
-            }
+  "GameSession" : {
+    "Gameplay" : {
+      "Flags" : {
+        "Flag1" : {
+          "ControllingTeam" : "teamNumber",
+          "NearbyPlayers" : {
+            "Team1" : [ "" ],
+            "Team2" : [ "" ]
+          },
+          "ControlStatus" : "0"
         },
-        "Gameplay": {
-            "RoundDuration": "duration",
-            "TimeRemaining": "timeRemaining",
-            "RoundScore": ["team1", "team2"],
-            "Flags": {
-                "Flag1": {
-                    "ControllingTeam": "teamNumber",
-                    "NearbyPlayers": {
-                        "Team1": [""],
-                        "Team2": [""]
-                    }
-                },
-                "Flag2": {
-                    "ControllingTeam": "teamNumber",
-                    "NearbyPlayers": {
-                        "Team1": [""],
-                        "Team2": [""]
-                    }
-                },
-                "Flag3": {
-                    "ControllingTeam": "teamNumber",
-                    "NearbyPlayers": {
-                        "Team1": [""],
-                        "Team2": [""]
-                    }
-                }
-            }
+        "Flag2" : {
+          "ControllingTeam" : "teamNumber",
+          "NearbyPlayers" : {
+            "Team1" : [ "" ],
+            "Team2" : [ "" ]
+          },
+          "ControlStatus" : "0"
+        },
+        "Flag3" : {
+          "ControllingTeam" : "teamNumber",
+          "NearbyPlayers" : {
+            "Team1" : [ "" ],
+            "Team2" : [ "" ]
+          },
+          "ControlStatus" : "0"
         }
+      },
+      "RoundDuration" : "duration",
+      "RoundScore" : [ "team1", "team2" ],
+      "TimeRemaining" : "timeRemaining"
+    },
+    "Settings" : {
+      "Beacons" : [ "13372", "15271", "20062" ],
+      "GameName" : "name",
+      "Teams" : {
+        "Team1" : {
+          "Players" : [ "" ],
+          "RoundsWon" : "number"
+        },
+        "Team2" : {
+          "Players" : [ "" ],
+          "RoundsWon" : "number"
+        }
+      }
     }
+  }
 }
