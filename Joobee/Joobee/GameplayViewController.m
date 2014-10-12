@@ -124,7 +124,8 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     }
     int netDiff = team1Count - team2Count;
     int currentControlStatusValue = [[gameState[@"Flags"][theFlag] objectForKey:@"ControlStatus"] intValue];
-    NSNumber *newControlStatusValue = @(currentControlStatusValue + netDiff);
+    currentControlStatusValue = MIN(MAX(-100, currentControlStatusValue + netDiff),100);
+    NSNumber *newControlStatusValue = @(currentControlStatusValue);
     NSDictionary *newControlStatus = @{ @"ControlStatus" : newControlStatusValue };
     
     NSString *url = [NSString stringWithFormat:@"%@Flag%i",kFlags,flagNumber];
