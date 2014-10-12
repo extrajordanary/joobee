@@ -186,19 +186,19 @@
                                     <segment title="Blue"/>
                                 </segments>
                             </segmentedControl>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="R: 0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fdS-mL-pCD">
-                                <rect key="frame" x="31" y="565" width="40" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="T1: 0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fdS-mL-pCD">
+                                <rect key="frame" x="31" y="569" width="80" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="40" id="Otg-af-VCA"/>
+                                    <constraint firstAttribute="width" constant="80" id="Otg-af-VCA"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="B: 0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="00c-0K-Fy3">
-                                <rect key="frame" x="529" y="566" width="40" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="T2: 0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="00c-0K-Fy3">
+                                <rect key="frame" x="489" y="569" width="80" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="40" id="z91-cK-rQf"/>
+                                    <constraint firstAttribute="width" constant="80" id="z91-cK-rQf"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -291,9 +291,9 @@
                         <outlet property="beaconThreeStatus" destination="o03-n4-wCC" id="G2r-xu-qhe"/>
                         <outlet property="beaconTwoPossession" destination="7jF-bh-1s0" id="BCp-su-EPa"/>
                         <outlet property="beaconTwoStatus" destination="WcY-lE-aSO" id="0Ir-PO-oB0"/>
-                        <outlet property="blueScore" destination="00c-0K-Fy3" id="V7s-2g-f9N"/>
-                        <outlet property="redScore" destination="fdS-mL-pCD" id="MJt-xk-jOP"/>
+                        <outlet property="teamOneScore" destination="fdS-mL-pCD" id="1RY-X7-Xzg"/>
                         <outlet property="teamSelection" destination="VT6-b2-uzF" id="WCs-FU-ZPk"/>
+                        <outlet property="teamTwoScore" destination="00c-0K-Fy3" id="B8F-ke-2Q4"/>
                         <outlet property="timeRemaining" destination="7Jj-ZM-G9c" id="ZXh-Eq-Cku"/>
                     </connections>
                 </viewController>

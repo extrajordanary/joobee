@@ -12,8 +12,8 @@
 @interface GameplayViewController ()
 
 @property (strong, nonatomic) IBOutlet UILabel *timeRemaining;
-@property (strong, nonatomic) IBOutlet UILabel *blueScore;
-@property (strong, nonatomic) IBOutlet UILabel *redScore;
+@property (strong, nonatomic) IBOutlet UILabel *teamTwoScore;
+@property (strong, nonatomic) IBOutlet UILabel *teamOneScore;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *teamSelection;
 
 @property (strong, nonatomic) IBOutlet UIProgressView *beaconOneStatus;
@@ -87,6 +87,19 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     } else if (flagNumber == 2) {
         self.beaconTwoStatus.progress = flagControlUIStatus;
     } else self.beaconThreeStatus.progress = flagControlUIStatus;
+}
+
+-(void)updateFlagControlText:(int)flagNumber withTeam:(NSString*)controllingTeam {
+    if (flagNumber == 1) {
+        self.beaconOnePossession.text = controllingTeam;
+    } else if (flagNumber == 2) {
+        self.beaconTwoPossession.text = controllingTeam;
+    } else self.beaconThreePossession.text = controllingTeam;
+}
+
+-(void)updateScoreForTeamOne:(NSString*)team1 teamTwo:(NSString*)team2 {
+    self.teamOneScore.text = [NSString stringWithFormat:@"T1: %@",team1];
+    self.teamTwoScore.text = [NSString stringWithFormat:@"T2: %@",team2];
 }
 
 #pragma mark - Flag Proximity
@@ -163,17 +176,36 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     NSString *url = [NSString stringWithFormat:@"%@Flag%i",kFlags,flagNumber];
     Firebase *updateFlag = [[Firebase alloc] initWithUrl:url];
     [updateFlag updateChildValues:newControllingTeam];
-    
-    if (flagNumber == 1) {
-        self.beaconOnePossession.text = controllingTeam;
-    } else if (flagNumber == 2) {
-        self.beaconTwoPossession.text = controllingTeam;
-    } else self.beaconThreePossession.text = controllingTeam;
+
+    [self updateFlagControlText:flagNumber withTeam:controllingTeam];
 }
 
 -(void)updateTeamPoints {
     // for each flag controlled, teams gain X points
+    int team1Score = [[gameState[@"RoundScore"] objectForKey:@"Team1"] intValue];
+    int team2Score = [[gameState[@"RoundScore"] objectForKey:@"Team2"] intValue];
     
+    for (int i = 1; i < 4; i ++) {
+        NSString *theFlag = [NSString stringWithFormat:@"Flag%i",i];
+        NSString *controllingTeam = [gameState[@"Flags"][theFlag] objectForKey:@"ControllingTeam"];
+        if ([controllingTeam isEqualToString:@"Team1"]) {
+            team1Score++;
+        } else if ([controllingTeam isEqualToString:@"Team2"]) {
+            team2Score++;
+        }
+    }
+    NSString *score1 = [NSString stringWithFormat:@"%i",team1Score];
+    NSString *score2 = [NSString stringWithFormat:@"%i",team2Score];
+    NSDictionary *newTeamScores = @{ @"RoundScore" : @{
+                                        @"Team1" : score1,
+                                        @"Team2" : score2
+                                        }
+                                     };
+    NSString *url = kGameState;
+    Firebase *updateScores = [[Firebase alloc] initWithUrl:url];
+    [updateScores updateChildValues:newTeamScores];
+    
+    [self updateScoreForTeamOne:score1 teamTwo:score2]; 
 }
 
 @end
