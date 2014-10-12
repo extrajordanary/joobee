@@ -2,7 +2,7 @@
 //  ESTBeaconDefinitions.h
 //  EstimoteSDK
 //
-//  Version : 2.0.0
+//  Version: 2.1.5
 //  Created by Marcin Klimek on 9/26/13.
 //  Copyright (c) 2013 Estimote. All rights reserved.
 //
@@ -20,7 +20,7 @@
 // Type and class definitions
 
 
-typedef enum : char
+typedef NS_ENUM(char, ESTBeaconPower)
 {
     ESTBeaconPowerLevel1 = -30,
     ESTBeaconPowerLevel2 = -20,
@@ -30,36 +30,23 @@ typedef enum : char
     ESTBeaconPowerLevel6 = -4,
     ESTBeaconPowerLevel7 = 0,
     ESTBeaconPowerLevel8 = 4
-} ESTBeaconPower;
+};
 
-typedef enum : int
+typedef NS_ENUM(int, ESTBeaconBatteryType)
 {
     ESTBeaconBatteryTypeUnknown = 0,
     ESTBeaconBatteryTypeCR2450,
     ESTBeaconBatteryTypeCR2477
-} ESTBeaconBatteryType;
+};
 
 
-typedef enum : int
+typedef NS_ENUM(int, ESTBeaconFirmwareState)
 {
     ESTBeaconFirmwareStateBoot,
     ESTBeaconFirmwareStateApp
-} ESTBeaconFirmwareState;
+};
 
-typedef enum : int
-{
-    ESTEventEnterRegion,
-    ESTEventExitRegion
-} ESTEvent;
-
-typedef enum : int
-{
-    ESTProximityImmediate,
-	ESTProximityNear,
-	ESTProximityFar
-} ESTProximity;
-
-typedef enum : int
+typedef NS_ENUM(int, ESTBeaconColor)
 {
     ESTBeaconColorUnknown = 0,
     ESTBeaconColorMint = 1,
@@ -67,21 +54,29 @@ typedef enum : int
     ESTBeaconColorBlueberry,
     ESTBeaconColorWhite,
     ESTBeaconColorTransparent
-} ESTBeaconColor;
+};
 
-typedef enum : int
+typedef NS_ENUM(int, ESTBeaconFirmwareUpdate)
 {
     ESTBeaconFirmwareUpdateNone,
     ESTBeaconFirmwareUpdateAvailable,
     ESTBeaconFirmwareUpdateNotAvailable
-} ESTBeaconFirmwareUpdate;
+};
 
-typedef enum : int
+typedef NS_ENUM(int, ESTBeaconConnectionStatus)
 {
     ESTBeaconConnectionStatusConnecting,
-	ESTBeaconConnectionStatusConnected,
-	ESTBeaconConnectionStatusDisconnected
-} ESTBeaconConnectionStatus;
+    ESTBeaconConnectionStatusConnected,
+    ESTBeaconConnectionStatusDisconnected
+};
+
+typedef NS_ENUM(int, ESTBeaconPowerSavingMode)
+{
+    ESTBeaconPowerSavingModeUnknown,
+    ESTBeaconPowerSavingModeOn,
+    ESTBeaconPowerSavingModeOff,
+    ESTBeaconPowerSavingModeNotAvailable,
+};
 
 typedef void(^ESTCompletionBlock)(NSError* error);
 typedef void(^ESTObjectCompletionBlock)(id result, NSError* error);

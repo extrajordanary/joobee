@@ -8,6 +8,7 @@
 
 #import "GameplayViewController.h"
 #import <Firebase/Firebase.h>
+#import "AppDelegate.h"
 
 @interface GameplayViewController ()
 
@@ -49,6 +50,7 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     myTeam = @"Team1";
     
     [self subscribeToGameUpdates];
+    [self setUpEstimoteManager];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -69,7 +71,7 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     Firebase *gameRef = [[Firebase alloc] initWithUrl:kGameState];
     [gameRef observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
         gameState = snapshot.value;
-        NSLog(@"Game State: %@", gameState);
+//        NSLog(@"Game State: %@", gameState);
     } withCancelBlock:^(NSError *error) {
         NSLog(@"%@", error.description);
     }];
@@ -223,6 +225,63 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     [updateScores updateChildValues:newTeamScores];
     
     [self updateScoreForTeamOne:score1 teamTwo:score2];
+}
+
+#pragma mark - Estimote SDK and Delegate
+-(void)setUpEstimoteManager {
+    self.beaconManager = [[ESTBeaconManager alloc] init];
+    self.beaconManager.delegate = self;
+    [self.beaconManager requestAlwaysAuthorization];
+    [self.beaconManager startRangingBeaconsInRegion:nil];
+}
+
+-(void)beaconManager:(ESTBeaconManager *)manager
+rangingBeaconsDidFailForRegion:(ESTBeaconRegion *)region
+           withError:(NSError *)error{
+    
+}
+
+- (void)beaconManager:(ESTBeaconManager *)manager
+didFailDiscoveryInRegion:(ESTBeaconRegion *)region {
+    
+}
+
+-(void)beaconManager:(ESTBeaconManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(ESTBeaconRegion *)region {
+    BOOL nearFlag1 = NO;
+    BOOL nearFlag2 = NO;
+    BOOL nearFlag3 = NO;
+    
+        for (ESTBeacon * beacon in beacons) {
+            if (beacon.distance.floatValue>0.0f && beacon.distance.floatValue<0.5f) {
+                NSInteger major = beacon.major.integerValue;
+                switch (major) {
+                    case 13372:
+                        nearFlag1 = YES;
+                        break;
+                    case 15271:
+                        nearFlag2 = YES;
+                        break;
+                    case 20062:
+                        nearFlag3 = YES;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    NSLog(nearFlag1 ? @"1 Yes" : @"1 No");
+    NSLog(nearFlag2 ? @"2 Yes" : @"2 No");
+    NSLog(nearFlag2 ? @"3 Yes" : @"3 No");
+    
+    if (nearFlag1) {
+        [self addSelfToFlag:1];
+    } else [self removeSelfFromFlag:1];
+    if (nearFlag2) {
+        [self addSelfToFlag:2];
+    } else [self removeSelfFromFlag:2];
+    if (nearFlag3) {
+        [self addSelfToFlag:3];
+    } else [self removeSelfFromFlag:3];
 }
 
 @end

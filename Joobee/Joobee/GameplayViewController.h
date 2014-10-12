@@ -11,6 +11,7 @@
 
 @interface GameplayViewController : UIViewController <ESTBeaconManagerDelegate>
 
+@property (nonatomic,strong) ESTBeaconManager * beaconManager;
 
 @end
 
