@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ESTBeaconManager.h"
+#import <Foundation/Foundation.h> 
 
 @interface GameplayViewController : UIViewController <ESTBeaconManagerDelegate>
 

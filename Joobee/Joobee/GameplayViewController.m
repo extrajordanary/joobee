@@ -39,6 +39,8 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     NSDictionary *thisPlayer;
     NSString *playerName;
     NSString *myTeam;
+    CGFloat timer;
+
 }
 
 - (void)viewDidLoad {
@@ -235,17 +237,6 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     [self.beaconManager startRangingBeaconsInRegion:nil];
 }
 
--(void)beaconManager:(ESTBeaconManager *)manager
-rangingBeaconsDidFailForRegion:(ESTBeaconRegion *)region
-           withError:(NSError *)error{
-    
-}
-
-- (void)beaconManager:(ESTBeaconManager *)manager
-didFailDiscoveryInRegion:(ESTBeaconRegion *)region {
-    
-}
-
 -(void)beaconManager:(ESTBeaconManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(ESTBeaconRegion *)region {
     BOOL nearFlag1 = NO;
     BOOL nearFlag2 = NO;
@@ -283,5 +274,18 @@ didFailDiscoveryInRegion:(ESTBeaconRegion *)region {
         [self addSelfToFlag:3];
     } else [self removeSelfFromFlag:3];
 }
+
+#pragma mark - Delta update method
+
+//-(void)update:(CCTime)delta
+//{
+//    timer-=delta;
+//    
+//    if (timer<=0.0f)
+//    {
+//        timer = 2.5f;
+//
+//    }
+//}
 
 @end
