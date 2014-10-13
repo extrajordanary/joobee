@@ -30,6 +30,7 @@
 
 static NSString* const kBaseURL = @"https://blistering-heat-4085.firebaseio.com/";
 static NSString* const kGameplay = @"GameSession/Gameplay/";
+static NSString* const kGameSession = @"https://blistering-heat-4085.firebaseio.com/GameSession/";
 static NSString* const kGameState = @"https://blistering-heat-4085.firebaseio.com/GameSession/Gameplay/"; // = gameState
 static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/GameSession/Gameplay/Flags/";
 
@@ -40,7 +41,7 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     NSString *playerName;
     NSString *myTeam;
     CGFloat timer;
-
+    NSTimer *updateTimer;
 }
 
 - (void)viewDidLoad {
@@ -53,6 +54,7 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     
     [self subscribeToGameUpdates];
     [self setUpEstimoteManager];
+    updateTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateGameState) userInfo:nil repeats:YES];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -61,7 +63,6 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     if (self.teamSelection.selectedSegmentIndex) {
         myTeam = @"Team2";
     } else myTeam = @"Team1";
-    NSLog(myTeam);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -80,16 +81,20 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
 }
 #pragma mark - UI Buttons
 
-- (IBAction)attachFlag1:(id)sender {
+- (IBAction)attachFlag1:(id)sender { // temp
     [self addSelfToFlag:1];
 }
 
-- (IBAction)detachFlag1:(id)sender {
+- (IBAction)detachFlag1:(id)sender { // temp
     [self removeSelfFromFlag:1];
 }
 
-- (IBAction)updateGameState:(id)sender {
-    [self updateGameState];
+- (IBAction)resetSettings:(id)sender { // temp
+    [self resetFirebaseSettings];
+}
+
+- (IBAction)resetGameplay:(id)sender {
+    [self resetFirebaseGameplay];
 }
 
 - (IBAction)selectTeam:(id)sender {
@@ -275,17 +280,84 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     } else [self removeSelfFromFlag:3];
 }
 
-#pragma mark - Delta update method
+#pragma mark - Firebase Reset Values
+- (void)resetFirebaseGameplay {
+    NSDictionary *defaultGameplay = @{ @"Gameplay" : @{
+                                            @"Flags" : @{
+                                                @"Flag1" : @{
+                                                    @"ControlStatus" : @0,
+                                                    @"ControllingTeam" : @"-",
+                                                    @"NearbyPlayers" : @{
+                                                        @"Team1" : @{
+                                                            @"player" : @"player"
+                                                        },
+                                                        @"Team2" : @{
+                                                            @"player" : @"player"
+                                                        }
+                                                    }
+                                                },
+                                                @"Flag2" : @{
+                                                    @"ControlStatus" : @0,
+                                                    @"ControllingTeam" : @"-",
+                                                    @"NearbyPlayers" : @{
+                                                        @"Team1" : @{
+                                                            @"player" : @"player"
+                                                        },
+                                                        @"Team2" : @{
+                                                            @"player" : @"player"
+                                                        }
+                                                    }
+                                                },
+                                                @"Flag3" : @{
+                                                    @"ControlStatus" : @0,
+                                                    @"ControllingTeam" : @"-",
+                                                    @"NearbyPlayers" : @{
+                                                        @"Team1" : @{
+                                                            @"player" : @"player"
+                                                        },
+                                                        @"Team2" : @{
+                                                            @"player" : @"player"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                       };
+    
+    NSString *url = kGameSession;
+    Firebase *resetGameplay = [[Firebase alloc] initWithUrl:url];
+    [resetGameplay updateChildValues:defaultGameplay];
+}
 
-//-(void)update:(CCTime)delta
-//{
-//    timer-=delta;
-//    
-//    if (timer<=0.0f)
-//    {
-//        timer = 2.5f;
-//
-//    }
-//}
+-(void)resetFirebaseSettings {
+    // TODO: is there a way to just read this from the json file?
+    NSDictionary *defaultSettings =    @{ @"Settings" : @{
+                                            @"Beacons" : @{
+                                                @"Flag1" : @13372,
+                                                @"Flag2" : @15271,
+                                                @"Flag3" : @20062
+                                            },
+                                            @"GameName" : @"name",
+                                            @"Teams" : @{
+                                                @"Team1" : @{
+                                                    @"Players" : @{
+                                                        @"player" : @"player"
+                                                    },
+                                                    @"RoundsWon" : @0
+                                                },
+                                                @"Team2" : @{
+                                                    @"Players" : @{
+                                                        @"player" : @"player"
+                                                    },
+                                                    @"RoundsWon" : @0
+                                                }
+                                            }
+                                            }
+                                          };
+    
+    NSString *url = kGameSession;
+    Firebase *resetSettings = [[Firebase alloc] initWithUrl:url];
+    [resetSettings updateChildValues:defaultSettings];
+}
 
 @end
