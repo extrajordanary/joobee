@@ -40,8 +40,9 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     NSDictionary *thisPlayer;
     NSString *playerName;
     NSString *myTeam;
-    CGFloat timer;
+    int timeRemaining;
     NSTimer *updateTimer;
+    BOOL gameActive;
 }
 
 - (void)viewDidLoad {
@@ -51,6 +52,7 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     thisPlayer = @{ playerName : playerName, };
     
     myTeam = @"Team1";
+    gameActive = NO;
     
     [self subscribeToGameUpdates];
     [self setUpEstimoteManager];
@@ -65,29 +67,15 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     } else myTeam = @"Team1";
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 -(void)subscribeToGameUpdates {
     Firebase *gameRef = [[Firebase alloc] initWithUrl:kGameState];
     [gameRef observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
         gameState = snapshot.value;
-//        NSLog(@"Game State: %@", gameState);
     } withCancelBlock:^(NSError *error) {
         NSLog(@"%@", error.description);
     }];
 }
 #pragma mark - UI Buttons
-
-- (IBAction)attachFlag1:(id)sender { // temp
-    [self addSelfToFlag:1];
-}
-
-- (IBAction)detachFlag1:(id)sender { // temp
-    [self removeSelfFromFlag:1];
-}
 
 - (IBAction)resetSettings:(id)sender { // temp
     [self resetFirebaseSettings];
@@ -99,12 +87,27 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
 
 - (IBAction)selectTeam:(id)sender {
     if (self.teamSelection.selectedSegmentIndex) {
+        [self removeSelfFromFlag:1];
+        [self removeSelfFromFlag:2];
+        [self removeSelfFromFlag:3];
+        
         myTeam = @"Team2";
-    } else myTeam = @"Team1";
-    NSLog(myTeam);
+    } else {
+        [self removeSelfFromFlag:1];
+        [self removeSelfFromFlag:2];
+        [self removeSelfFromFlag:3];
+        
+        myTeam = @"Team1";
+    }
+}
+- (IBAction)playPause:(id)sender {
+    if (gameActive) {
+        gameActive = NO;
+    } else gameActive = YES;
 }
 
 #pragma mark - UI
+// TODO: have values saved as variables so that no values need to be passed in
 -(void)updateFlagProgressBar:(int)flagNumber withValue:(int)value{
     float flagControlUIStatus = ((float)value/2 + 50)/100;
     
@@ -124,34 +127,40 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
 }
 
 -(void)updateScoreForTeamOne:(NSString*)team1 teamTwo:(NSString*)team2 {
-    self.teamOneScore.text = [NSString stringWithFormat:@"T1: %@",team1];
-    self.teamTwoScore.text = [NSString stringWithFormat:@"T2: %@",team2];
+    self.teamOneScore.text = team1; //[NSString stringWithFormat:@"T1: %@",team1];
+    self.teamTwoScore.text = team2; //[NSString stringWithFormat:@"T2: %@",team2];
 }
 
 #pragma mark - Flag Proximity
 // methods used by all players
 -(void)addSelfToFlag:(int)flagNumber {
     // make call to FB and add self to Flag#, NearbyPlayers, [myTeam]
-    NSString *url = [NSString stringWithFormat:@"%@Flag%i/NearbyPlayers/%@",kFlags,flagNumber,myTeam];
-    Firebase* nearFlag = [[Firebase alloc] initWithUrl:url];
-    [nearFlag updateChildValues:thisPlayer];
+    if (gameActive) {
+        NSString *url = [NSString stringWithFormat:@"%@Flag%i/NearbyPlayers/%@",kFlags,flagNumber,myTeam];
+        Firebase* nearFlag = [[Firebase alloc] initWithUrl:url];
+        [nearFlag updateChildValues:thisPlayer];
+    }
 }
 
 -(void)removeSelfFromFlag:(int)flagNumber {
-    NSString *url = [NSString stringWithFormat:@"%@Flag%i/NearbyPlayers/%@",kFlags,flagNumber,myTeam];
-    Firebase* nearFlag = [[Firebase alloc] initWithUrl:url];
-    Firebase* leaveFlag = [nearFlag childByAppendingPath:[NSString stringWithFormat:@"/%@",playerName]];
-    [leaveFlag removeValue];
+    if (gameActive) {
+        NSString *url = [NSString stringWithFormat:@"%@Flag%i/NearbyPlayers/%@",kFlags,flagNumber,myTeam];
+        Firebase* nearFlag = [[Firebase alloc] initWithUrl:url];
+        Firebase* leaveFlag = [nearFlag childByAppendingPath:[NSString stringWithFormat:@"/%@",playerName]];
+        [leaveFlag removeValue];
+    }
 }
 
 #pragma mark - Game Logic
 // methods only run by the game host
 -(void)updateGameState {
-    for (int i = 1; i < 4; i++) {
-        [self updateFlagStatus:i];
-        [self updateFlagControl:i];
+    if (gameActive) {
+        for (int i = 1; i < 4; i++) {
+            [self updateFlagStatus:i];
+            [self updateFlagControl:i];
+        }
+        [self updateTeamPoints];
     }
-    [self updateTeamPoints];
 }
 
 -(void)updateFlagStatus:(int)flagNumber {
@@ -192,9 +201,9 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     NSString *theFlag = [NSString stringWithFormat:@"Flag%i",flagNumber];
     int currentControlStatusValue = [[gameState[@"Flags"][theFlag] objectForKey:@"ControlStatus"] intValue];
     NSString *controllingTeam;
-    if (currentControlStatusValue > 25) {
+    if (currentControlStatusValue >= 25) {
         controllingTeam = @"Team1";
-    } else if (currentControlStatusValue < -25) {
+    } else if (currentControlStatusValue <= -25) {
         controllingTeam = @"Team2";
     } else controllingTeam = @"-";
     
@@ -281,6 +290,7 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
 }
 
 #pragma mark - Firebase Reset Values
+// TODO: flatten json structure
 - (void)resetFirebaseGameplay {
     NSDictionary *defaultGameplay = @{ @"Gameplay" : @{
                                             @"Flags" : @{
@@ -320,8 +330,16 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
                                                         }
                                                     }
                                                 }
+                                            },
+                                            @"RoundDuration" : @300, // 5 minutes
+                                            @"RoundScore" : @{
+                                                @"Team1" : @0,
+                                                @"Team2" : @0
+                                            },
+                                            @"TimeRemaining" : @300,
+                                            @"GameActive" : @"NO",
+                                            @"GameOver" : @"NO"
                                             }
-                                        }
                                        };
     
     NSString *url = kGameSession;
