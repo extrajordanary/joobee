@@ -16,6 +16,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *teamTwoScore;
 @property (strong, nonatomic) IBOutlet UILabel *teamOneScore;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *teamSelection;
+@property (strong, nonatomic) IBOutlet UILabel *hostLabel;
 
 @property (strong, nonatomic) IBOutlet UIProgressView *beaconOneStatus;
 @property (strong, nonatomic) IBOutlet UILabel *beaconOnePossession;
@@ -40,9 +41,11 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     NSDictionary *thisPlayer;
     NSString *playerName;
     NSString *myTeam;
-    int timeRemaining;
+    int secondsRemaining;
     NSTimer *updateTimer;
     BOOL gameActive;
+    BOOL isHost;
+    int uiUpdate;
 }
 
 - (void)viewDidLoad {
@@ -53,6 +56,8 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     
     myTeam = @"Team1";
     gameActive = NO;
+    isHost = NO;
+    uiUpdate = 0;
     
     [self subscribeToGameUpdates];
     [self setUpEstimoteManager];
@@ -71,6 +76,14 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     Firebase *gameRef = [[Firebase alloc] initWithUrl:kGameState];
     [gameRef observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
         gameState = snapshot.value;
+        
+        // everyone updates their UI
+        [self updateFlagProgressBars];
+        [self updateFlagControlTexts];
+        [self updateTeamScores];
+        uiUpdate ++;
+        NSLog(@"UI update %i",uiUpdate);
+        
     } withCancelBlock:^(NSError *error) {
         NSLog(@"%@", error.description);
     }];
@@ -101,66 +114,130 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     }
 }
 - (IBAction)playPause:(id)sender {
-    if (gameActive) {
-        gameActive = NO;
-    } else gameActive = YES;
+    if (isHost) {
+        if (gameActive) {
+            gameActive = NO;
+        } else gameActive = YES;
+        
+        // set FB value
+        NSString *url = kGameState;
+        Firebase* nearFlag = [[Firebase alloc] initWithUrl:url];
+        NSString *active = gameActive ? @"YES" : @"NO";
+        [nearFlag updateChildValues: @{ @"GameActive" : active }];
+    }
 }
 
 #pragma mark - UI
 // TODO: have values saved as variables so that no values need to be passed in
--(void)updateFlagProgressBar:(int)flagNumber withValue:(int)value{
-    float flagControlUIStatus = ((float)value/2 + 50)/100;
-    
-    if (flagNumber == 1) {
-        self.beaconOneStatus.progress = flagControlUIStatus;
-    } else if (flagNumber == 2) {
-        self.beaconTwoStatus.progress = flagControlUIStatus;
-    } else self.beaconThreeStatus.progress = flagControlUIStatus;
+//-(void)updateFlagProgressBar:(int)flagNumber withValue:(int)value{
+//    float flagControlUIStatus = ((float)value/2 + 50)/100;
+//    
+//    if (flagNumber == 1) {
+//        self.beaconOneStatus.progress = flagControlUIStatus;
+//    } else if (flagNumber == 2) {
+//        self.beaconTwoStatus.progress = flagControlUIStatus;
+//    } else self.beaconThreeStatus.progress = flagControlUIStatus;
+//}
+
+-(void)updateFlagProgressBars {
+    int statusValue1 = [[gameState[@"Flags"][@"Flag1"] objectForKey:@"ControlStatus"] intValue];
+    int statusValue2 = [[gameState[@"Flags"][@"Flag2"] objectForKey:@"ControlStatus"] intValue];
+    int statusValue3 = [[gameState[@"Flags"][@"Flag3"] objectForKey:@"ControlStatus"] intValue];
+    float flag1UIStatus = ((float)statusValue1/2 + 50)/100;
+    float flag2UIStatus = ((float)statusValue2/2 + 50)/100;
+    float flag3UIStatus = ((float)statusValue3/2 + 50)/100;
+    self.beaconOneStatus.progress = flag1UIStatus;
+    self.beaconTwoStatus.progress = flag2UIStatus;
+    self.beaconThreeStatus.progress = flag3UIStatus;
 }
 
--(void)updateFlagControlText:(int)flagNumber withTeam:(NSString*)controllingTeam {
-    if (flagNumber == 1) {
-        self.beaconOnePossession.text = controllingTeam;
-    } else if (flagNumber == 2) {
-        self.beaconTwoPossession.text = controllingTeam;
-    } else self.beaconThreePossession.text = controllingTeam;
+//-(void)updateFlagControlText:(int)flagNumber withTeam:(NSString*)controllingTeam {
+//    if (flagNumber == 1) {
+//        self.beaconOnePossession.text = controllingTeam;
+//    } else if (flagNumber == 2) {
+//        self.beaconTwoPossession.text = controllingTeam;
+//    } else self.beaconThreePossession.text = controllingTeam;
+//}
+
+-(void)updateFlagControlTexts {
+    self.beaconOnePossession.text = [gameState[@"Flags"][@"Flag1"] objectForKey:@"ControllingTeam"];
+    self.beaconTwoPossession.text = [gameState[@"Flags"][@"Flag2"] objectForKey:@"ControllingTeam"];
+    self.beaconThreePossession.text = [gameState[@"Flags"][@"Flag3"] objectForKey:@"ControllingTeam"];
 }
 
--(void)updateScoreForTeamOne:(NSString*)team1 teamTwo:(NSString*)team2 {
-    self.teamOneScore.text = team1; //[NSString stringWithFormat:@"T1: %@",team1];
-    self.teamTwoScore.text = team2; //[NSString stringWithFormat:@"T2: %@",team2];
+//-(void)updateScoreForTeamOne:(NSString*)team1 teamTwo:(NSString*)team2 {
+//    self.teamOneScore.text = team1; //[NSString stringWithFormat:@"T1: %@",team1];
+//    self.teamTwoScore.text = team2; //[NSString stringWithFormat:@"T2: %@",team2];
+//}
+
+-(void)updateTeamScores {
+    int team1Score = [[gameState[@"RoundScore"] objectForKey:@"Team1"] intValue];
+    int team2Score = [[gameState[@"RoundScore"] objectForKey:@"Team2"] intValue];
+    NSString *score1 = [NSString stringWithFormat:@"%i",team1Score];
+    NSString *score2 = [NSString stringWithFormat:@"%i",team2Score];
+    self.teamOneScore.text = score1;
+    self.teamTwoScore.text = score2;
 }
 
 #pragma mark - Flag Proximity
 // methods used by all players
 -(void)addSelfToFlag:(int)flagNumber {
     // make call to FB and add self to Flag#, NearbyPlayers, [myTeam]
-    if (gameActive) {
+//    if (gameActive) {
         NSString *url = [NSString stringWithFormat:@"%@Flag%i/NearbyPlayers/%@",kFlags,flagNumber,myTeam];
         Firebase* nearFlag = [[Firebase alloc] initWithUrl:url];
         [nearFlag updateChildValues:thisPlayer];
-    }
+//    }
 }
 
 -(void)removeSelfFromFlag:(int)flagNumber {
-    if (gameActive) {
+//    if (gameActive) {
         NSString *url = [NSString stringWithFormat:@"%@Flag%i/NearbyPlayers/%@",kFlags,flagNumber,myTeam];
         Firebase* nearFlag = [[Firebase alloc] initWithUrl:url];
         Firebase* leaveFlag = [nearFlag childByAppendingPath:[NSString stringWithFormat:@"/%@",playerName]];
         [leaveFlag removeValue];
-    }
+//    }
 }
 
 #pragma mark - Game Logic
 // methods only run by the game host
--(void)updateGameState {
-    if (gameActive) {
-        for (int i = 1; i < 4; i++) {
-            [self updateFlagStatus:i];
-            [self updateFlagControl:i];
-        }
-        [self updateTeamPoints];
+-(void)setGameHost {
+    // set who the game host is
+    if ([[gameState objectForKey:@"GameHost"] isEqualToString:@"-"]) {
+        NSString *url = kGameState;
+        Firebase *updateHost = [[Firebase alloc] initWithUrl:url];
+        NSDictionary *newHost = @{ @"GameHost" : playerName };
+        [updateHost updateChildValues:newHost];
+        isHost = YES;
+        self.hostLabel.hidden = NO;
     }
+    if ([[gameState objectForKey:@"GameHost"] isEqualToString:playerName]) {
+        isHost = YES;
+        self.hostLabel.hidden = NO;
+    } else {
+        isHost = NO;
+        self.hostLabel.hidden = YES;
+    }
+}
+
+-(void)updateGameState {
+    [self setGameHost];
+    if (gameActive) {
+        // only one person updates calculated values
+        if (isHost) {
+            for (int i = 1; i < 4; i++) {
+                [self updateFlagStatus:i];
+                [self updateFlagControl:i];
+            }
+            [self updateTeamPoints];
+        }
+    }
+//    // everyone updates their UI
+//    [self updateFlagProgressBars];
+//    [self updateFlagControlTexts];
+//    [self updateTeamScores];
+//    uiUpdate ++;
+//    NSLog(@"UI update %i",uiUpdate);
 }
 
 -(void)updateFlagStatus:(int)flagNumber {
@@ -191,7 +268,7 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     Firebase *updateFlag = [[Firebase alloc] initWithUrl:url];
     [updateFlag updateChildValues:newControlStatus];
 
-    [self updateFlagProgressBar:flagNumber withValue:currentControlStatusValue];
+//    [self updateFlagProgressBar:flagNumber withValue:currentControlStatusValue];
 }
 
 -(void)updateFlagControl:(int)flagNumber {
@@ -212,7 +289,7 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     Firebase *updateFlag = [[Firebase alloc] initWithUrl:url];
     [updateFlag updateChildValues:newControllingTeam];
 
-    [self updateFlagControlText:flagNumber withTeam:controllingTeam];
+//    [self updateFlagControlText:flagNumber withTeam:controllingTeam];
 }
 
 -(void)updateTeamPoints {
@@ -240,7 +317,7 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     Firebase *updateScores = [[Firebase alloc] initWithUrl:url];
     [updateScores updateChildValues:newTeamScores];
     
-    [self updateScoreForTeamOne:score1 teamTwo:score2];
+//    [self updateScoreForTeamOne:score1 teamTwo:score2];
 }
 
 #pragma mark - Estimote SDK and Delegate
@@ -338,7 +415,8 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
                                             },
                                             @"TimeRemaining" : @300,
                                             @"GameActive" : @"NO",
-                                            @"GameOver" : @"NO"
+                                            @"GameOver" : @"NO",
+                                            @"GameHost" : @"-"
                                             }
                                        };
     
