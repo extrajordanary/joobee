@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="V90-RY-zdz">
     <dependencies>
-        <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -21,10 +20,10 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mxh-wo-xZ7">
-                                <rect key="frame" x="0.0" y="110" width="600" height="129"/>
+                                <rect key="frame" x="0.0" y="110" width="600" height="143"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HMi-dH-Drf">
-                                        <rect key="frame" x="15" y="39" width="570" height="50"/>
+                                        <rect key="frame" x="15" y="46" width="570" height="50"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DNU-cH-3dV">
                                                 <rect key="frame" x="0.0" y="0.0" width="211" height="50"/>
@@ -128,7 +127,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" misplaced="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="caP-8F-VrD" userLabel="Progress View 1">
-                                        <rect key="frame" x="15" y="63" width="570" height="20"/>
+                                        <rect key="frame" x="15" y="61" width="570" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="100" id="Ncd-E3-eh4"/>
                                             <constraint firstAttribute="height" constant="20" id="VAN-Ss-U8l"/>
@@ -175,10 +174,10 @@
                                 </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CZi-LP-4JI">
-                                <rect key="frame" x="0.0" y="371" width="600" height="129"/>
+                                <rect key="frame" x="0.0" y="399" width="600" height="143"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pyU-ZT-ZJJ">
-                                        <rect key="frame" x="15" y="40" width="570" height="50"/>
+                                        <rect key="frame" x="15" y="47" width="570" height="50"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bTg-tp-BQ2">
                                                 <rect key="frame" x="0.0" y="0.0" width="211" height="50"/>
@@ -317,10 +316,10 @@
                                 </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TrS-JP-Wix">
-                                <rect key="frame" x="0.0" y="241" width="600" height="128"/>
+                                <rect key="frame" x="0.0" y="255" width="600" height="142"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nsN-pG-WZy">
-                                        <rect key="frame" x="15" y="39" width="570" height="50"/>
+                                        <rect key="frame" x="15" y="46" width="570" height="50"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ObT-vY-0n8">
                                                 <rect key="frame" x="0.0" y="0.0" width="211" height="50"/>
@@ -418,7 +417,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" misplaced="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="WcY-lE-aSO" userLabel="Progress View 2">
-                                        <rect key="frame" x="15" y="63" width="570" height="20"/>
+                                        <rect key="frame" x="15" y="61" width="570" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="100" id="1R1-Ed-56V"/>
                                             <constraint firstAttribute="height" constant="20" id="6jo-b2-FoW"/>
@@ -480,7 +479,7 @@
                                 </connections>
                             </button>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="VT6-b2-uzF">
-                                <rect key="frame" x="240" y="552" width="120" height="29"/>
+                                <rect key="frame" x="240" y="557" width="120" height="29"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="120" id="fQg-Ft-10M"/>
                                     <constraint firstAttribute="height" constant="28" id="onR-2x-8uO"/>
@@ -577,7 +576,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="yOc-bN-IVR" secondAttribute="trailing" id="1bq-ZW-Jmd"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Mxh-wo-xZ7" secondAttribute="trailing" constant="-16" id="1dd-ZQ-X0o"/>
                             <constraint firstItem="Mxh-wo-xZ7" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="topMargin" constant="100" id="21R-wd-IfQ"/>
-                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="VT6-b2-uzF" secondAttribute="bottom" constant="20" id="40C-2c-ThK"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="VT6-b2-uzF" secondAttribute="bottom" constant="15" id="40C-2c-ThK"/>
                             <constraint firstItem="Mxh-wo-xZ7" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="5Z5-lc-Z9K"/>
                             <constraint firstItem="yOc-bN-IVR" firstAttribute="centerY" secondItem="bnU-Kd-7Ky" secondAttribute="centerY" id="5kL-Re-ugb"/>
                             <constraint firstItem="QCl-T4-sHh" firstAttribute="centerY" secondItem="yOc-bN-IVR" secondAttribute="centerY" id="6ra-Nf-3WU"/>
@@ -611,6 +610,7 @@
                             <constraint firstItem="Mxh-wo-xZ7" firstAttribute="height" secondItem="CZi-LP-4JI" secondAttribute="height" id="crh-9v-hsi"/>
                             <constraint firstItem="yOc-bN-IVR" firstAttribute="leading" secondItem="QCl-T4-sHh" secondAttribute="trailing" constant="2" id="d9s-gV-hc6"/>
                             <constraint firstItem="Mxh-wo-xZ7" firstAttribute="centerY" secondItem="TrS-JP-Wix" secondAttribute="centerY" id="dt7-tJ-O2G"/>
+                            <constraint firstItem="VT6-b2-uzF" firstAttribute="top" secondItem="CZi-LP-4JI" secondAttribute="bottom" constant="15" id="eP1-pS-TfZ"/>
                             <constraint firstItem="yOc-bN-IVR" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="topMargin" constant="10" id="eeU-KN-QIe"/>
                             <constraint firstAttribute="centerY" secondItem="bnU-Kd-7Ky" secondAttribute="centerY" id="fFi-1j-Lmh"/>
                             <constraint firstAttribute="centerX" secondItem="VT6-b2-uzF" secondAttribute="centerX" id="fKd-jL-E9G"/>
@@ -639,6 +639,9 @@
                                 <exclude reference="QCl-T4-sHh"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="6ra-Nf-3WU"/>
+                                <exclude reference="Cqn-Nz-8gx"/>
+                                <exclude reference="Ysc-c8-2bW"/>
                                 <exclude reference="a2X-1F-LqN"/>
                                 <exclude reference="QkO-UI-WEM"/>
                                 <exclude reference="wwq-d3-sIR"/>
@@ -655,9 +658,6 @@
                                 <exclude reference="8zB-cz-nob"/>
                                 <exclude reference="RK8-5i-wlt"/>
                                 <exclude reference="tzA-b0-XVw"/>
-                                <exclude reference="6ra-Nf-3WU"/>
-                                <exclude reference="Cqn-Nz-8gx"/>
-                                <exclude reference="Ysc-c8-2bW"/>
                                 <exclude reference="JGi-8D-7zH"/>
                                 <exclude reference="1bq-ZW-Jmd"/>
                                 <exclude reference="71R-gm-onr"/>
@@ -668,6 +668,7 @@
                                 <exclude reference="kQO-7A-Nqh"/>
                                 <exclude reference="9Yr-kw-Tvs"/>
                                 <exclude reference="FGU-k7-G9r"/>
+                                <exclude reference="sLI-EU-cHf"/>
                             </mask>
                         </variation>
                     </view>

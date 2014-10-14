@@ -13,7 +13,8 @@ TODO:
  - game over
  - game about to start
  - show number of players at each flag
- - pre-game choose team, then disabled when game starts
+ DONE- pre-game choose team, then disabled when game starts
+ - convert seconds to minutes and seconds
 */
 #import "GameplayViewController.h"
 #import <Firebase/Firebase.h>
@@ -57,6 +58,7 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     NSTimer *updateTimer;
 //    BOOL canChooseTeam;
     BOOL gameActive;
+    BOOL gameOver;
     BOOL isHost;
     int uiUpdate;
     
@@ -67,14 +69,21 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    playerName = [NSString stringWithFormat:@"player%i",arc4random_uniform(500)];
+    int randomNum = arc4random_uniform(500);
+    playerName = [NSString stringWithFormat:@"player%i",randomNum];
     thisPlayer = @{ playerName : playerName, };
     
-    myTeam = @"Team1";
+    if (randomNum % 2) {
+        myTeam = @"Team2";
+        [self.teamSelection setSelectedSegmentIndex: (NSInteger)1];
+    } else {
+        myTeam = @"Team1";
+    }
     gameActive = NO;
+    gameOver = NO;
     isHost = NO;
     uiUpdate = 0;
-//    canChooseTeam = YES;
+    self.hostLabel.hidden = YES;
     
     nearFlag = [UIColor colorWithRed:(252.0/255.0) green:(243.0/255.0) blue:(171.0/255.0) alpha:1.0];
     notNearFlag = [UIColor colorWithRed:246.0/255.0 green:246.0/255.0 blue:246.0/255.0 alpha:1.0];
@@ -87,9 +96,9 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    if (self.teamSelection.selectedSegmentIndex) {
-        myTeam = @"Team2";
-    } else myTeam = @"Team1";
+//    if (self.teamSelection.selectedSegmentIndex) {
+//        myTeam = @"Team2";
+//    } else myTeam = @"Team1";
 }
 
 -(void)subscribeToGameUpdates {
@@ -111,6 +120,14 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
 
 - (IBAction)resetGameplay:(id)sender {
     [self resetFirebaseGameplay];
+    
+    // make self the host
+    NSString *url = kGameState;
+    Firebase *updateHost = [[Firebase alloc] initWithUrl:url];
+    NSDictionary *newHost = @{ @"GameHost" : playerName };
+    [updateHost updateChildValues:newHost];
+    isHost = YES;
+    self.hostLabel.hidden = NO;
 }
 
 - (IBAction)selectTeam:(id)sender {
@@ -181,18 +198,34 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
 }
 
 -(void)updateTimeRemaining {
-    gameActive = [[gameState objectForKey:@"GameActive"] isEqualToString:@"YES"];
-    if (gameActive) {
-        // can not switch teams
-        self.teamSelection.userInteractionEnabled = NO;
-        [self.teamSelection setEnabled:NO];
+    gameOver = [[gameState objectForKey:@"GameOver"] isEqualToString:@"YES"];
+    if (gameOver) {
+        gameActive = NO;
         
-        self.timeRemaining.text = [NSString stringWithFormat:@"%i",[[gameState objectForKey:@"TimeRemaining"] intValue]];
+        self.timeRemaining.text = @"GAME OVER";
     } else {
-        // can switch teams?
-        self.teamSelection.userInteractionEnabled = YES;
-        [self.teamSelection setEnabled:YES];
-        self.timeRemaining.text = @"PAUSED";
+        gameActive = [[gameState objectForKey:@"GameActive"] isEqualToString:@"YES"];
+        if (gameActive) {
+            // can not switch teams -- not the best place for this... but meh
+            self.teamSelection.userInteractionEnabled = NO;
+            [self.teamSelection setEnabled:NO];
+            
+            
+            secondsRemaining = [[gameState objectForKey:@"TimeRemaining"] intValue];
+            int minutes = secondsRemaining/60;
+            int seconds = secondsRemaining - (minutes*60);
+            
+            if (seconds < 10) {
+                self.timeRemaining.text = [NSString stringWithFormat:@"%i:0%i",minutes,seconds];
+            } else {
+                self.timeRemaining.text = [NSString stringWithFormat:@"%i:%i",minutes,seconds];
+            }
+        } else {
+            // can switch teams?
+            self.teamSelection.userInteractionEnabled = YES;
+            [self.teamSelection setEnabled:YES];
+            self.timeRemaining.text = @"PAUSED";
+        }
     }
 }
 
@@ -254,7 +287,7 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
 }
 
 -(void)updateGameState {
-    [self setGameHost];
+//    [self setGameHost];
     if (gameActive) {
         // only one person updates calculated values
         if (isHost) {
@@ -268,7 +301,21 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
             // clear all players from flags after they've been counted
             [self resetNearbyPlayers];
         }
+        if (secondsRemaining < 1) {
+            gameOver = YES;
+            
+            // set FB value
+            NSString *url = kGameState;
+            Firebase *gameOverUpdate = [[Firebase alloc] initWithUrl:url];
+            [gameOverUpdate updateChildValues: @{ @"GameOver" : @"YES" }];
+            [gameOverUpdate updateChildValues: @{ @"GameActive" : @"NO" }];
+        }
     }
+//    if (gameOver) {
+//        gameActive = NO;
+//        
+//        self.timeRemaining.text = @"GAME OVER";
+//    }
 }
 
 -(void)updateFlagStatus:(int)flagNumber {
@@ -466,7 +513,7 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
                                                 @"Team1" : @0,
                                                 @"Team2" : @0
                                             },
-                                            @"TimeRemaining" : @300,
+                                            @"TimeRemaining" : @20,
                                             @"GameActive" : @"NO",
                                             @"GameOver" : @"NO",
                                             @"GameHost" : @"-"
