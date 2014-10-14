@@ -513,7 +513,7 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
                                                 @"Team1" : @0,
                                                 @"Team2" : @0
                                             },
-                                            @"TimeRemaining" : @20,
+                                            @"TimeRemaining" : @300,
                                             @"GameActive" : @"NO",
                                             @"GameOver" : @"NO",
                                             @"GameHost" : @"-"
