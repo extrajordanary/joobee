@@ -20,12 +20,15 @@
 
 @property (strong, nonatomic) IBOutlet UIProgressView *beaconOneStatus;
 @property (strong, nonatomic) IBOutlet UILabel *beaconOnePossession;
+@property (strong, nonatomic) IBOutlet UIView *beaconOneNearby;
 
 @property (strong, nonatomic) IBOutlet UIProgressView *beaconTwoStatus;
 @property (strong, nonatomic) IBOutlet UILabel *beaconTwoPossession;
+@property (strong, nonatomic) IBOutlet UIView *beaconTwoNearby;
 
 @property (strong, nonatomic) IBOutlet UIProgressView *beaconThreeStatus;
 @property (strong, nonatomic) IBOutlet UILabel *beaconThreePossession;
+@property (strong, nonatomic) IBOutlet UIView *beaconThreeNearby;
 
 @end
 
@@ -46,6 +49,9 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     BOOL gameActive;
     BOOL isHost;
     int uiUpdate;
+    
+    UIColor *nearFlag;
+    UIColor *notNearFlag;
 }
 
 - (void)viewDidLoad {
@@ -58,6 +64,9 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     gameActive = NO;
     isHost = NO;
     uiUpdate = 0;
+    
+    nearFlag = [UIColor colorWithRed:(252.0/255.0) green:(243.0/255.0) blue:(171.0/255.0) alpha:1.0];
+    notNearFlag = [UIColor colorWithRed:246.0/255.0 green:246.0/255.0 blue:246.0/255.0 alpha:1.0];
     
     [self subscribeToGameUpdates];
     [self setUpEstimoteManager];
@@ -77,12 +86,7 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     [gameRef observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
         gameState = snapshot.value;
         
-        // everyone updates their UI
-        [self updateFlagProgressBars];
-        [self updateFlagControlTexts];
-        [self updateTeamScores];
-        uiUpdate ++;
-        NSLog(@"UI update %i",uiUpdate);
+        [self updateUI];
         
     } withCancelBlock:^(NSError *error) {
         NSLog(@"%@", error.description);
@@ -121,23 +125,22 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
         
         // set FB value
         NSString *url = kGameState;
-        Firebase* nearFlag = [[Firebase alloc] initWithUrl:url];
+        Firebase* nearFlagUpdate = [[Firebase alloc] initWithUrl:url];
         NSString *active = gameActive ? @"YES" : @"NO";
-        [nearFlag updateChildValues: @{ @"GameActive" : active }];
+        [nearFlagUpdate updateChildValues: @{ @"GameActive" : active }];
     }
 }
 
 #pragma mark - UI
-// TODO: have values saved as variables so that no values need to be passed in
-//-(void)updateFlagProgressBar:(int)flagNumber withValue:(int)value{
-//    float flagControlUIStatus = ((float)value/2 + 50)/100;
-//    
-//    if (flagNumber == 1) {
-//        self.beaconOneStatus.progress = flagControlUIStatus;
-//    } else if (flagNumber == 2) {
-//        self.beaconTwoStatus.progress = flagControlUIStatus;
-//    } else self.beaconThreeStatus.progress = flagControlUIStatus;
-//}
+-(void)updateUI {
+    // everyone updates their UI
+    [self updateFlagProgressBars];
+    [self updateFlagControlTexts];
+    [self updateTeamScores];
+    [self updateTimeRemaining];
+    uiUpdate ++;
+    NSLog(@"UI update %i",uiUpdate);
+}
 
 -(void)updateFlagProgressBars {
     int statusValue1 = [[gameState[@"Flags"][@"Flag1"] objectForKey:@"ControlStatus"] intValue];
@@ -151,24 +154,11 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     self.beaconThreeStatus.progress = flag3UIStatus;
 }
 
-//-(void)updateFlagControlText:(int)flagNumber withTeam:(NSString*)controllingTeam {
-//    if (flagNumber == 1) {
-//        self.beaconOnePossession.text = controllingTeam;
-//    } else if (flagNumber == 2) {
-//        self.beaconTwoPossession.text = controllingTeam;
-//    } else self.beaconThreePossession.text = controllingTeam;
-//}
-
 -(void)updateFlagControlTexts {
     self.beaconOnePossession.text = [gameState[@"Flags"][@"Flag1"] objectForKey:@"ControllingTeam"];
     self.beaconTwoPossession.text = [gameState[@"Flags"][@"Flag2"] objectForKey:@"ControllingTeam"];
     self.beaconThreePossession.text = [gameState[@"Flags"][@"Flag3"] objectForKey:@"ControllingTeam"];
 }
-
-//-(void)updateScoreForTeamOne:(NSString*)team1 teamTwo:(NSString*)team2 {
-//    self.teamOneScore.text = team1; //[NSString stringWithFormat:@"T1: %@",team1];
-//    self.teamTwoScore.text = team2; //[NSString stringWithFormat:@"T2: %@",team2];
-//}
 
 -(void)updateTeamScores {
     int team1Score = [[gameState[@"RoundScore"] objectForKey:@"Team1"] intValue];
@@ -179,24 +169,49 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     self.teamTwoScore.text = score2;
 }
 
+-(void)updateTimeRemaining {
+    gameActive = [[gameState objectForKey:@"GameActive"] isEqualToString:@"YES"];
+    if (gameActive) {
+        self.timeRemaining.text = [NSString stringWithFormat:@"%i",[[gameState objectForKey:@"TimeRemaining"] intValue]];
+    } else {
+        self.timeRemaining.text = @"PAUSED";
+    }
+}
+
 #pragma mark - Flag Proximity
 // methods used by all players
 -(void)addSelfToFlag:(int)flagNumber {
     // make call to FB and add self to Flag#, NearbyPlayers, [myTeam]
-//    if (gameActive) {
+    if (gameActive) {
         NSString *url = [NSString stringWithFormat:@"%@Flag%i/NearbyPlayers/%@",kFlags,flagNumber,myTeam];
-        Firebase* nearFlag = [[Firebase alloc] initWithUrl:url];
-        [nearFlag updateChildValues:thisPlayer];
-//    }
+        Firebase* nearFlagUpdate = [[Firebase alloc] initWithUrl:url];
+        [nearFlagUpdate updateChildValues:thisPlayer];
+        
+        if (flagNumber == 1) {
+            [self.beaconOneNearby setBackgroundColor:nearFlag];
+        } else if (flagNumber == 2) {
+            [self.beaconTwoNearby setBackgroundColor:nearFlag];
+        } else {
+            [self.beaconThreeNearby setBackgroundColor:nearFlag];
+        }
+    }
 }
 
 -(void)removeSelfFromFlag:(int)flagNumber {
-//    if (gameActive) {
+    if (gameActive) {
         NSString *url = [NSString stringWithFormat:@"%@Flag%i/NearbyPlayers/%@",kFlags,flagNumber,myTeam];
-        Firebase* nearFlag = [[Firebase alloc] initWithUrl:url];
-        Firebase* leaveFlag = [nearFlag childByAppendingPath:[NSString stringWithFormat:@"/%@",playerName]];
+        Firebase* nearFlagUpdate = [[Firebase alloc] initWithUrl:url];
+        Firebase* leaveFlag = [nearFlagUpdate childByAppendingPath:[NSString stringWithFormat:@"/%@",playerName]];
         [leaveFlag removeValue];
-//    }
+        
+        if (flagNumber == 1) {
+            self.beaconOneNearby.backgroundColor = notNearFlag;
+        } else if (flagNumber == 2) {
+            self.beaconTwoNearby.backgroundColor = notNearFlag;
+        } else {
+            self.beaconThreeNearby.backgroundColor = notNearFlag;
+        }
+    }
 }
 
 #pragma mark - Game Logic
@@ -230,14 +245,12 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
                 [self updateFlagControl:i];
             }
             [self updateTeamPoints];
+            [self updateSecondsRemaining];
+            
+            // clear all players from flags after they've been counted
+            [self resetNearbyPlayers];
         }
     }
-//    // everyone updates their UI
-//    [self updateFlagProgressBars];
-//    [self updateFlagControlTexts];
-//    [self updateTeamScores];
-//    uiUpdate ++;
-//    NSLog(@"UI update %i",uiUpdate);
 }
 
 -(void)updateFlagStatus:(int)flagNumber {
@@ -267,8 +280,6 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     NSString *url = [NSString stringWithFormat:@"%@Flag%i",kFlags,flagNumber];
     Firebase *updateFlag = [[Firebase alloc] initWithUrl:url];
     [updateFlag updateChildValues:newControlStatus];
-
-//    [self updateFlagProgressBar:flagNumber withValue:currentControlStatusValue];
 }
 
 -(void)updateFlagControl:(int)flagNumber {
@@ -288,8 +299,6 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     NSString *url = [NSString stringWithFormat:@"%@Flag%i",kFlags,flagNumber];
     Firebase *updateFlag = [[Firebase alloc] initWithUrl:url];
     [updateFlag updateChildValues:newControllingTeam];
-
-//    [self updateFlagControlText:flagNumber withTeam:controllingTeam];
 }
 
 -(void)updateTeamPoints {
@@ -316,8 +325,34 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     NSString *url = kGameState;
     Firebase *updateScores = [[Firebase alloc] initWithUrl:url];
     [updateScores updateChildValues:newTeamScores];
+}
+
+-(void)updateSecondsRemaining {
+    secondsRemaining = [[gameState objectForKey:@"TimeRemaining"] intValue];
+    secondsRemaining--;
+    NSString *newTime = [NSString stringWithFormat:@"%i",secondsRemaining];
     
-//    [self updateScoreForTeamOne:score1 teamTwo:score2];
+    NSString *url = kGameState;
+    Firebase *updateTime = [[Firebase alloc] initWithUrl:url];
+    [updateTime updateChildValues: @{ @"TimeRemaining" : newTime } ];
+}
+
+-(void)resetNearbyPlayers {
+    NSDictionary *clearNearby = @{ @"NearbyPlayers" : @{
+                                                     @"Team1" : @{
+                                                             @"player" : @"player"
+                                                             },
+                                                     @"Team2" : @{
+                                                             @"player" : @"player"
+                                                             }
+                                                     }
+                                   };
+    for (int i = 1; i < 4; i++) {
+        NSString *url = [NSString stringWithFormat:@"%@Flag%i",kFlags,i];
+        Firebase *updateFlag = [[Firebase alloc] initWithUrl:url];
+        [updateFlag updateChildValues:clearNearby];
+    }
+    
 }
 
 #pragma mark - Estimote SDK and Delegate
@@ -334,7 +369,7 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     BOOL nearFlag3 = NO;
     
         for (ESTBeacon * beacon in beacons) {
-            if (beacon.distance.floatValue>0.0f && beacon.distance.floatValue<0.5f) {
+            if (beacon.distance.floatValue>0.0f && beacon.distance.floatValue<1.0f) {
                 NSInteger major = beacon.major.integerValue;
                 switch (major) {
                     case 13372:
@@ -353,7 +388,7 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
         }
     NSLog(nearFlag1 ? @"1 Yes" : @"1 No");
     NSLog(nearFlag2 ? @"2 Yes" : @"2 No");
-    NSLog(nearFlag2 ? @"3 Yes" : @"3 No");
+    NSLog(nearFlag3 ? @"3 Yes" : @"3 No");
     
     if (nearFlag1) {
         [self addSelfToFlag:1];
