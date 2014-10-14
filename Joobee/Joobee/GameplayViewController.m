@@ -6,6 +6,15 @@
 //  Copyright (c) 2014 Byjor. All rights reserved.
 //
 
+/*
+TODO: 
+ - app run in background
+ - push notifications of events: claimed flag, flag lost, other team stole flag, game start, game end
+ - game over
+ - game about to start
+ - show number of players at each flag
+ - pre-game choose team, then disabled when game starts
+*/
 #import "GameplayViewController.h"
 #import <Firebase/Firebase.h>
 #import "AppDelegate.h"
@@ -35,7 +44,7 @@
 static NSString* const kBaseURL = @"https://blistering-heat-4085.firebaseio.com/";
 static NSString* const kGameplay = @"GameSession/Gameplay/";
 static NSString* const kGameSession = @"https://blistering-heat-4085.firebaseio.com/GameSession/";
-static NSString* const kGameState = @"https://blistering-heat-4085.firebaseio.com/GameSession/Gameplay/"; // = gameState
+static NSString* const kGameState = @"https://blistering-heat-4085.firebaseio.com/GameSession/Gameplay/";
 static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/GameSession/Gameplay/Flags/";
 
 
@@ -46,6 +55,7 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     NSString *myTeam;
     int secondsRemaining;
     NSTimer *updateTimer;
+//    BOOL canChooseTeam;
     BOOL gameActive;
     BOOL isHost;
     int uiUpdate;
@@ -64,6 +74,7 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     gameActive = NO;
     isHost = NO;
     uiUpdate = 0;
+//    canChooseTeam = YES;
     
     nearFlag = [UIColor colorWithRed:(252.0/255.0) green:(243.0/255.0) blue:(171.0/255.0) alpha:1.0];
     notNearFlag = [UIColor colorWithRed:246.0/255.0 green:246.0/255.0 blue:246.0/255.0 alpha:1.0];
@@ -172,8 +183,15 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
 -(void)updateTimeRemaining {
     gameActive = [[gameState objectForKey:@"GameActive"] isEqualToString:@"YES"];
     if (gameActive) {
+        // can not switch teams
+        self.teamSelection.userInteractionEnabled = NO;
+        [self.teamSelection setEnabled:NO];
+        
         self.timeRemaining.text = [NSString stringWithFormat:@"%i",[[gameState objectForKey:@"TimeRemaining"] intValue]];
     } else {
+        // can switch teams?
+        self.teamSelection.userInteractionEnabled = YES;
+        [self.teamSelection setEnabled:YES];
         self.timeRemaining.text = @"PAUSED";
     }
 }
