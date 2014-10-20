@@ -31,14 +31,20 @@ TODO:
 @property (strong, nonatomic) IBOutlet UIProgressView *beaconOneStatus;
 @property (strong, nonatomic) IBOutlet UILabel *beaconOnePossession;
 @property (strong, nonatomic) IBOutlet UIView *beaconOneNearby;
+@property (strong, nonatomic) IBOutlet UIView *beaconOneMarker;
+@property (strong, nonatomic) IBOutlet UIView *beaconOneBar;
 
 @property (strong, nonatomic) IBOutlet UIProgressView *beaconTwoStatus;
 @property (strong, nonatomic) IBOutlet UILabel *beaconTwoPossession;
 @property (strong, nonatomic) IBOutlet UIView *beaconTwoNearby;
+@property (strong, nonatomic) IBOutlet UIView *beaconTwoBar;
+@property (strong, nonatomic) IBOutlet UIView *beaconTwoMarker;
 
 @property (strong, nonatomic) IBOutlet UIProgressView *beaconThreeStatus;
 @property (strong, nonatomic) IBOutlet UILabel *beaconThreePossession;
 @property (strong, nonatomic) IBOutlet UIView *beaconThreeNearby;
+@property (strong, nonatomic) IBOutlet UIView *beaconThreeBar;
+@property (strong, nonatomic) IBOutlet UIView *beaconThreeMarker;
 
 @end
 
@@ -54,6 +60,8 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     NSDictionary *thisPlayer;
     NSString *playerName;
     NSString *myTeam;
+    NSString *team1Name;
+    NSString *team2Name;
     int secondsRemaining;
     NSTimer *updateTimer;
 //    BOOL canChooseTeam;
@@ -64,6 +72,11 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     
     UIColor *nearFlag;
     UIColor *notNearFlag;
+    
+    UIColor *team1Control;
+    UIColor *team1Default;
+    UIColor *team2Control;
+    UIColor *team2Default;
 }
 
 - (void)viewDidLoad {
@@ -79,6 +92,8 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     } else {
         myTeam = @"Team1";
     }
+    team1Name = @"Extortion Oranges";
+    team2Name = @"Thieving Greens";
     gameActive = NO;
     gameOver = NO;
     isHost = NO;
@@ -88,6 +103,11 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     nearFlag = [UIColor colorWithRed:(252.0/255.0) green:(243.0/255.0) blue:(171.0/255.0) alpha:1.0];
     notNearFlag = [UIColor colorWithRed:246.0/255.0 green:246.0/255.0 blue:246.0/255.0 alpha:1.0];
     
+    team1Default = [UIColor colorWithRed:1.000 green:0.844 blue:0.771 alpha:1.000];
+    team2Default = [UIColor colorWithRed:0.738 green:1.000 blue:0.839 alpha:1.000];
+    team1Control = [UIColor colorWithRed:1.000 green:0.503 blue:0.286 alpha:1.000];
+    team2Control = [UIColor colorWithRed:0.154 green:0.850 blue:0.662 alpha:1.000];
+    
     [self subscribeToGameUpdates];
     [self setUpEstimoteManager];
     updateTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateGameState) userInfo:nil repeats:YES];
@@ -95,10 +115,6 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
-//    if (self.teamSelection.selectedSegmentIndex) {
-//        myTeam = @"Team2";
-//    } else myTeam = @"Team1";
 }
 
 -(void)subscribeToGameUpdates {
@@ -159,7 +175,7 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     }
 }
 
-#pragma mark - UI
+#pragma mark - UI Updates
 -(void)updateUI {
     // everyone updates their UI
     [self updateFlagProgressBars];
@@ -180,6 +196,49 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     self.beaconOneStatus.progress = flag1UIStatus;
     self.beaconTwoStatus.progress = flag2UIStatus;
     self.beaconThreeStatus.progress = flag3UIStatus;
+    
+    // get width of parent UIView, then divide by 100 and multiply by flag#UIstatus to get position for marker
+    float xValue1 = self.beaconOneBar.frame.size.width * flag1UIStatus;
+    self.beaconOneMarker.center = CGPointMake(xValue1 + self.beaconOneBar.frame.origin.x, self.beaconOneBar.center.y);
+    float xValue2 = self.beaconTwoBar.frame.size.width * flag2UIStatus;
+    self.beaconTwoMarker.center = CGPointMake(xValue2 + self.beaconTwoBar.frame.origin.x, self.beaconTwoBar.center.y);
+    float xValue3 = self.beaconThreeBar.frame.size.width * flag3UIStatus;
+    self.beaconThreeMarker.center = CGPointMake(xValue3 + self.beaconThreeBar.frame.origin.x, self.beaconThreeBar.center.y);
+    
+    // darker colors when team is earning money
+    // beacon 1
+    if (statusValue1 >= 25) {
+        self.beaconOneStatus.progressTintColor = team1Control;
+        self.beaconOneStatus.trackTintColor = team2Default;
+    } else if (statusValue1 <= -25) {
+        self.beaconOneStatus.progressTintColor = team1Default;
+        self.beaconOneStatus.trackTintColor = team2Control;
+    } else {
+        self.beaconOneStatus.progressTintColor = team1Default;
+        self.beaconOneStatus.trackTintColor = team2Default;
+    }
+    // beacon 2
+    if (statusValue2 >= 25) {
+        self.beaconTwoStatus.progressTintColor = team1Control;
+        self.beaconTwoStatus.trackTintColor = team2Default;
+    } else if (statusValue2 <= -25) {
+        self.beaconTwoStatus.progressTintColor = team1Default;
+        self.beaconTwoStatus.trackTintColor = team2Control;
+    } else {
+        self.beaconTwoStatus.progressTintColor = team1Default;
+        self.beaconTwoStatus.trackTintColor = team2Default;
+    }
+    //beacon 3
+    if (statusValue3 >= 25) {
+        self.beaconThreeStatus.progressTintColor = team1Control;
+        self.beaconThreeStatus.trackTintColor = team2Default;
+    } else if (statusValue3 <= -25) {
+        self.beaconThreeStatus.progressTintColor = team1Default;
+        self.beaconThreeStatus.trackTintColor = team2Control;
+    } else {
+        self.beaconThreeStatus.progressTintColor = team1Default;
+        self.beaconThreeStatus.trackTintColor = team2Default;
+    }
 }
 
 -(void)updateFlagControlTexts {
@@ -191,8 +250,8 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
 -(void)updateTeamScores {
     int team1Score = [[gameState[@"RoundScore"] objectForKey:@"Team1"] intValue];
     int team2Score = [[gameState[@"RoundScore"] objectForKey:@"Team2"] intValue];
-    NSString *score1 = [NSString stringWithFormat:@"%i",team1Score];
-    NSString *score2 = [NSString stringWithFormat:@"%i",team2Score];
+    NSString *score1 = [NSString stringWithFormat:@"$%i",team1Score];
+    NSString *score2 = [NSString stringWithFormat:@"$%i",team2Score];
     self.teamOneScore.text = score1;
     self.teamTwoScore.text = score2;
 }
@@ -355,9 +414,9 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     int currentControlStatusValue = [[gameState[@"Flags"][theFlag] objectForKey:@"ControlStatus"] intValue];
     NSString *controllingTeam;
     if (currentControlStatusValue >= 25) {
-        controllingTeam = @"Team1";
+        controllingTeam = team1Name;
     } else if (currentControlStatusValue <= -25) {
-        controllingTeam = @"Team2";
+        controllingTeam = team2Name;
     } else controllingTeam = @"-";
     
     NSDictionary *newControllingTeam = @{ @"ControllingTeam" : controllingTeam };
@@ -374,9 +433,9 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     for (int i = 1; i < 4; i ++) {
         NSString *theFlag = [NSString stringWithFormat:@"Flag%i",i];
         NSString *controllingTeam = [gameState[@"Flags"][theFlag] objectForKey:@"ControllingTeam"];
-        if ([controllingTeam isEqualToString:@"Team1"]) {
+        if ([controllingTeam isEqualToString:team1Name]) {
             team1Score++;
-        } else if ([controllingTeam isEqualToString:@"Team2"]) {
+        } else if ([controllingTeam isEqualToString:team2Name]) {
             team2Score++;
         }
     }
@@ -434,7 +493,7 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     BOOL nearFlag3 = NO;
     
         for (ESTBeacon * beacon in beacons) {
-            if (beacon.distance.floatValue>0.0f && beacon.distance.floatValue<1.0f) {
+            if (beacon.distance.floatValue>0.0f && beacon.distance.floatValue<2.0f) {
                 NSInteger major = beacon.major.integerValue;
                 switch (major) {
                     case 13372:
