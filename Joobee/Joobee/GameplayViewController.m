@@ -47,6 +47,10 @@ TODO:
 @property (strong, nonatomic) IBOutlet UIView *beaconThreeBar;
 @property (strong, nonatomic) IBOutlet UIView *beaconThreeMarker;
 
+@property (strong, nonatomic) IBOutlet UIButton *playPauseButton;
+@property (strong, nonatomic) IBOutlet UIButton *createNewGameButton;
+
+
 @end
 
 static NSString* const kBaseURL = @"https://blistering-heat-4085.firebaseio.com/";
@@ -95,7 +99,9 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     gameOver = NO;
     isHost = NO;
     uiUpdate = 0;
-    self.hostLabel.hidden = YES;
+//    self.hostLabel.hidden = YES;
+//    self.playPauseButton.hidden = YES;
+//    self.createNewGameButton.hidden = YES;
     
     int randomNum = arc4random_uniform(500);
     
@@ -106,14 +112,18 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     if ([[NSUserDefaults standardUserDefaults] valueForKey:@"isHost"]) {
         playerName = @"host"; // host
         isHost = YES;
-        self.hostLabel.hidden = NO;
-    } else playerName = [NSString stringWithFormat:@"player%i",randomNum]; // players
+    } else {
+        playerName = [NSString stringWithFormat:@"player%i",randomNum]; // players
+        self.hostLabel.hidden = YES;
+        self.playPauseButton.hidden = YES;
+        self.createNewGameButton.hidden = YES;
+    }
     
     thisPlayer = @{ playerName : playerName, };
     
     if (isHost){
         self.teamColor.backgroundColor = [UIColor colorWithRed:0.928 green:0.965 blue:0.207 alpha:1.000];
-        nearFlag = [UIColor colorWithRed:0.977 green:1.000 blue:0.670 alpha:1.000];
+        nearFlag = [UIColor colorWithRed:0.956 green:1.000 blue:0.806 alpha:1.000];
     }
     else if (randomNum % 2) {
         myTeam = @"Team2";
