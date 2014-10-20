@@ -65,7 +65,7 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     NSString *team2Name;
     int secondsRemaining;
     NSTimer *updateTimer;
-//    BOOL canChooseTeam;
+
     BOOL gameActive;
     BOOL gameOver;
     BOOL isHost;
@@ -89,12 +89,33 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     team2Control = [UIColor colorWithRed:0.154 green:0.850 blue:0.662 alpha:1.000];
     notNearFlag = [UIColor colorWithRed:246.0/255.0 green:246.0/255.0 blue:246.0/255.0 alpha:1.0];
 
+    team1Name = @"Extortion Oranges";
+    team2Name = @"Thieving Greens";
+    gameActive = NO;
+    gameOver = NO;
+    isHost = NO;
+    uiUpdate = 0;
+    self.hostLabel.hidden = YES;
     
     int randomNum = arc4random_uniform(500);
-    playerName = [NSString stringWithFormat:@"player%i",randomNum];
+    
+#pragma mark - !!! turn on for creating host phone only
+//    [[NSUserDefaults standardUserDefaults] setObject:@"YES" forKey:@"isHost"];
+//    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    if ([[NSUserDefaults standardUserDefaults] valueForKey:@"isHost"]) {
+        playerName = @"host"; // host
+        isHost = YES;
+        self.hostLabel.hidden = NO;
+    } else playerName = [NSString stringWithFormat:@"player%i",randomNum]; // players
+    
     thisPlayer = @{ playerName : playerName, };
     
-    if (randomNum % 2) {
+    if (isHost){
+        self.teamColor.backgroundColor = [UIColor colorWithRed:0.928 green:0.965 blue:0.207 alpha:1.000];
+        nearFlag = [UIColor colorWithRed:0.977 green:1.000 blue:0.670 alpha:1.000];
+    }
+    else if (randomNum % 2) {
         myTeam = @"Team2";
         self.teamColor.backgroundColor = team2Control;
         nearFlag = team2Default;
@@ -104,13 +125,6 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
         self.teamColor.backgroundColor = team1Control;
         nearFlag = team1Default;
     }
-    team1Name = @"Extortion Oranges";
-    team2Name = @"Thieving Greens";
-    gameActive = NO;
-    gameOver = NO;
-    isHost = NO;
-    uiUpdate = 0;
-    self.hostLabel.hidden = YES;
     
     [self subscribeToGameUpdates];
     [self setUpEstimoteManager];
@@ -141,41 +155,44 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
 - (IBAction)resetGameplay:(id)sender {
     [self resetFirebaseGameplay];
     
-    // make self the host
-    NSString *url = kGameState;
-    Firebase *updateHost = [[Firebase alloc] initWithUrl:url];
-    NSDictionary *newHost = @{ @"GameHost" : playerName };
-    [updateHost updateChildValues:newHost];
-    isHost = YES;
-    self.hostLabel.hidden = NO;
+//    // make self the host
+//    NSString *url = kGameState;
+//    Firebase *updateHost = [[Firebase alloc] initWithUrl:url];
+//    NSDictionary *newHost = @{ @"GameHost" : playerName };
+//    [updateHost updateChildValues:newHost];
+//    isHost = YES;
+//    self.hostLabel.hidden = NO;
 }
 
 - (IBAction)selectTeam:(id)sender {
-    if (self.teamSelection.selectedSegmentIndex) {
-        [self removeSelfFromFlag:1];
-        [self removeSelfFromFlag:2];
-        [self removeSelfFromFlag:3];
-        
-        myTeam = @"Team2";
-        self.teamColor.backgroundColor = team2Control;
-        nearFlag = team2Default;
-    } else {
-        [self removeSelfFromFlag:1];
-        [self removeSelfFromFlag:2];
-        [self removeSelfFromFlag:3];
-        
-        myTeam = @"Team1";
-        self.teamColor.backgroundColor = team1Control;
-        nearFlag = team1Default;
+    if (!isHost) {
+        if (self.teamSelection.selectedSegmentIndex) {
+            [self removeSelfFromFlag:1];
+            [self removeSelfFromFlag:2];
+            [self removeSelfFromFlag:3];
+            
+            myTeam = @"Team2";
+            self.teamColor.backgroundColor = team2Control;
+            nearFlag = team2Default;
+        } else {
+            [self removeSelfFromFlag:1];
+            [self removeSelfFromFlag:2];
+            [self removeSelfFromFlag:3];
+            
+            myTeam = @"Team1";
+            self.teamColor.backgroundColor = team1Control;
+            nearFlag = team1Default;
+        }
     }
 }
+
 - (IBAction)playPause:(id)sender {
     if (isHost) {
         if (gameActive) {
             gameActive = NO;
         } else gameActive = YES;
         
-        // set FB value
+        // set Firebase value
         NSString *url = kGameState;
         Firebase* nearFlagUpdate = [[Firebase alloc] initWithUrl:url];
         NSString *active = gameActive ? @"YES" : @"NO";
@@ -299,11 +316,13 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
 #pragma mark - Flag Proximity
 // methods used by all players
 -(void)addSelfToFlag:(int)flagNumber {
-    // make call to FB and add self to Flag#, NearbyPlayers, [myTeam]
+    // make call to Firebase and add self to Flag#, NearbyPlayers, [myTeam]
     if (gameActive) {
-        NSString *url = [NSString stringWithFormat:@"%@Flag%i/NearbyPlayers/%@",kFlags,flagNumber,myTeam];
-        Firebase* nearFlagUpdate = [[Firebase alloc] initWithUrl:url];
-        [nearFlagUpdate updateChildValues:thisPlayer];
+        if (!isHost) {
+            NSString *url = [NSString stringWithFormat:@"%@Flag%i/NearbyPlayers/%@",kFlags,flagNumber,myTeam];
+            Firebase* nearFlagUpdate = [[Firebase alloc] initWithUrl:url];
+            [nearFlagUpdate updateChildValues:thisPlayer];
+        }
         
         if (flagNumber == 1) {
             [self.beaconOneNearby setBackgroundColor:nearFlag];
@@ -336,14 +355,14 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
 // methods only run by the game host
 -(void)setGameHost {
     // set who the game host is
-    if ([[gameState objectForKey:@"GameHost"] isEqualToString:@"-"]) {
-        NSString *url = kGameState;
-        Firebase *updateHost = [[Firebase alloc] initWithUrl:url];
-        NSDictionary *newHost = @{ @"GameHost" : playerName };
-        [updateHost updateChildValues:newHost];
-        isHost = YES;
-        self.hostLabel.hidden = NO;
-    }
+//    if ([[gameState objectForKey:@"GameHost"] isEqualToString:@"-"]) {
+//        NSString *url = kGameState;
+//        Firebase *updateHost = [[Firebase alloc] initWithUrl:url];
+//        NSDictionary *newHost = @{ @"GameHost" : playerName };
+//        [updateHost updateChildValues:newHost];
+//        isHost = YES;
+//        self.hostLabel.hidden = NO;
+//    }
     if ([[gameState objectForKey:@"GameHost"] isEqualToString:playerName]) {
         isHost = YES;
         self.hostLabel.hidden = NO;
