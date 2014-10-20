@@ -27,6 +27,7 @@ TODO:
 @property (strong, nonatomic) IBOutlet UILabel *teamOneScore;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *teamSelection;
 @property (strong, nonatomic) IBOutlet UILabel *hostLabel;
+@property (strong, nonatomic) IBOutlet UIView *teamColor;
 
 @property (strong, nonatomic) IBOutlet UIProgressView *beaconOneStatus;
 @property (strong, nonatomic) IBOutlet UILabel *beaconOnePossession;
@@ -82,15 +83,26 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    team1Default = [UIColor colorWithRed:1.000 green:0.844 blue:0.771 alpha:1.000];
+    team2Default = [UIColor colorWithRed:0.738 green:1.000 blue:0.839 alpha:1.000];
+    team1Control = [UIColor colorWithRed:1.000 green:0.503 blue:0.286 alpha:1.000];
+    team2Control = [UIColor colorWithRed:0.154 green:0.850 blue:0.662 alpha:1.000];
+    notNearFlag = [UIColor colorWithRed:246.0/255.0 green:246.0/255.0 blue:246.0/255.0 alpha:1.0];
+
+    
     int randomNum = arc4random_uniform(500);
     playerName = [NSString stringWithFormat:@"player%i",randomNum];
     thisPlayer = @{ playerName : playerName, };
     
     if (randomNum % 2) {
         myTeam = @"Team2";
+        self.teamColor.backgroundColor = team2Control;
+        nearFlag = team2Default;
         [self.teamSelection setSelectedSegmentIndex: (NSInteger)1];
     } else {
         myTeam = @"Team1";
+        self.teamColor.backgroundColor = team1Control;
+        nearFlag = team1Default;
     }
     team1Name = @"Extortion Oranges";
     team2Name = @"Thieving Greens";
@@ -99,14 +111,6 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     isHost = NO;
     uiUpdate = 0;
     self.hostLabel.hidden = YES;
-    
-    nearFlag = [UIColor colorWithRed:(252.0/255.0) green:(243.0/255.0) blue:(171.0/255.0) alpha:1.0];
-    notNearFlag = [UIColor colorWithRed:246.0/255.0 green:246.0/255.0 blue:246.0/255.0 alpha:1.0];
-    
-    team1Default = [UIColor colorWithRed:1.000 green:0.844 blue:0.771 alpha:1.000];
-    team2Default = [UIColor colorWithRed:0.738 green:1.000 blue:0.839 alpha:1.000];
-    team1Control = [UIColor colorWithRed:1.000 green:0.503 blue:0.286 alpha:1.000];
-    team2Control = [UIColor colorWithRed:0.154 green:0.850 blue:0.662 alpha:1.000];
     
     [self subscribeToGameUpdates];
     [self setUpEstimoteManager];
@@ -153,12 +157,16 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
         [self removeSelfFromFlag:3];
         
         myTeam = @"Team2";
+        self.teamColor.backgroundColor = team2Control;
+        nearFlag = team2Default;
     } else {
         [self removeSelfFromFlag:1];
         [self removeSelfFromFlag:2];
         [self removeSelfFromFlag:3];
         
         myTeam = @"Team1";
+        self.teamColor.backgroundColor = team1Control;
+        nearFlag = team1Default;
     }
 }
 - (IBAction)playPause:(id)sender {
