@@ -49,6 +49,7 @@ TODO:
 
 @property (strong, nonatomic) IBOutlet UIButton *playPauseButton;
 @property (strong, nonatomic) IBOutlet UIButton *createNewGameButton;
+@property (strong, nonatomic) IBOutlet UIView *bluetoothWarningView;
 
 
 @end
@@ -217,9 +218,17 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     [self updateFlagControlTexts];
     [self updateTeamScores];
     [self updateTimeRemaining];
-    uiUpdate ++;
-    NSLog(@"UI update %i",uiUpdate);
+//    uiUpdate ++;
+//    NSLog(@"UI update %i",uiUpdate);
+//    [self updateBluetoothStatus];
 }
+
+//-(void)updateBluetoothStatus {
+//    if(![self.beaconManager isAuthorized]) {
+//        self.bluetoothWarningView.hidden = NO;
+//    } else self.bluetoothWarningView.hidden = YES;
+//
+//}
 
 -(void)updateFlagProgressBars {
     int statusValue1 = [[gameState[@"Flags"][@"Flag1"] objectForKey:@"ControlStatus"] intValue];
@@ -524,7 +533,13 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
     [self.beaconManager startRangingBeaconsInRegion:nil];
 }
 
+//-(void)beaconManager:(ESTBeaconManager *)manager didFailDiscoveryInRegion:(ESTBeaconRegion *)region {
+//    self.bluetoothWarningView.hidden = NO;
+//}
+
 -(void)beaconManager:(ESTBeaconManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(ESTBeaconRegion *)region {
+    self.bluetoothWarningView.hidden = YES;
+    
     BOOL nearFlag1 = NO;
     BOOL nearFlag2 = NO;
     BOOL nearFlag3 = NO;

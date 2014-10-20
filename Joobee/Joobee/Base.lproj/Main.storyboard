@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="V90-RY-zdz">
     <dependencies>
-        <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -680,6 +679,39 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y98-pr-7CD">
+                                <rect key="frame" x="66" y="200" width="468" height="200"/>
+                                <subviews>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" editable="NO" text="Please enable Bluetooth to play." textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ko-z9-9Th">
+                                        <rect key="frame" x="15" y="56" width="438" height="88"/>
+                                        <color key="textColor" red="0.96314538039999997" green="0.96314538039999997" blue="0.96314538039999997" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="30"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.93153447690000002" green="0.51384188159999999" blue="0.43478228460000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="2ko-z9-9Th" firstAttribute="top" secondItem="Y98-pr-7CD" secondAttribute="top" id="0Cb-2I-3bd"/>
+                                    <constraint firstAttribute="height" constant="300" id="1YA-En-HGJ"/>
+                                    <constraint firstAttribute="trailing" secondItem="2ko-z9-9Th" secondAttribute="trailing" id="5SO-FO-M1h"/>
+                                    <constraint firstAttribute="bottom" secondItem="2ko-z9-9Th" secondAttribute="bottom" id="5tU-ia-Tfa"/>
+                                    <constraint firstAttribute="height" constant="200" id="Isy-K8-uaA"/>
+                                    <constraint firstAttribute="centerX" secondItem="2ko-z9-9Th" secondAttribute="centerX" id="RGl-MN-h1x"/>
+                                    <constraint firstAttribute="trailing" secondItem="2ko-z9-9Th" secondAttribute="trailing" constant="15" id="Vse-Q3-lmP"/>
+                                    <constraint firstItem="2ko-z9-9Th" firstAttribute="leading" secondItem="Y98-pr-7CD" secondAttribute="leading" id="cs1-49-jou"/>
+                                    <constraint firstItem="2ko-z9-9Th" firstAttribute="leading" secondItem="Y98-pr-7CD" secondAttribute="leading" constant="15" id="dad-Mk-q7b"/>
+                                    <constraint firstAttribute="centerY" secondItem="2ko-z9-9Th" secondAttribute="centerY" id="n70-FK-Hd4"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="1YA-En-HGJ"/>
+                                        <exclude reference="0Cb-2I-3bd"/>
+                                        <exclude reference="5SO-FO-M1h"/>
+                                        <exclude reference="5tU-ia-Tfa"/>
+                                        <exclude reference="cs1-49-jou"/>
+                                    </mask>
+                                </variation>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -710,8 +742,10 @@
                             <constraint firstItem="fdS-mL-pCD" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="QGv-1c-akp"/>
                             <constraint firstItem="bnU-Kd-7Ky" firstAttribute="leading" secondItem="VT6-b2-uzF" secondAttribute="trailing" constant="3" id="QSP-Pu-stB"/>
                             <constraint firstItem="9EP-1h-Cki" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="10" id="QkO-UI-WEM"/>
+                            <constraint firstAttribute="centerX" secondItem="Y98-pr-7CD" secondAttribute="centerX" id="RBn-za-qSs"/>
                             <constraint firstItem="CZi-LP-4JI" firstAttribute="top" secondItem="TrS-JP-Wix" secondAttribute="bottom" id="RK8-5i-wlt"/>
                             <constraint firstItem="bAH-0i-nCz" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="Spb-as-Yk1"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Y98-pr-7CD" secondAttribute="trailing" constant="50" id="U3g-ks-Prf"/>
                             <constraint firstItem="CZi-LP-4JI" firstAttribute="top" secondItem="TrS-JP-Wix" secondAttribute="bottom" constant="2" id="Vqf-WO-aJM"/>
                             <constraint firstItem="9EP-1h-Cki" firstAttribute="centerY" secondItem="bnU-Kd-7Ky" secondAttribute="centerY" id="Vwy-Uh-8fU"/>
                             <constraint firstItem="CZi-LP-4JI" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" constant="16" id="WAr-b8-rAi"/>
@@ -741,8 +775,10 @@
                             <constraint firstAttribute="trailingMargin" secondItem="TrS-JP-Wix" secondAttribute="trailing" constant="-16" id="nHS-CU-1lv"/>
                             <constraint firstItem="fdS-mL-pCD" firstAttribute="centerY" secondItem="7Jj-ZM-G9c" secondAttribute="centerY" id="owx-Lc-eMg"/>
                             <constraint firstAttribute="trailingMargin" secondItem="00c-0K-Fy3" secondAttribute="trailing" id="pHy-4N-VMU"/>
+                            <constraint firstAttribute="centerY" secondItem="Y98-pr-7CD" secondAttribute="centerY" id="pIX-29-DBc"/>
                             <constraint firstItem="Mxh-wo-xZ7" firstAttribute="width" secondItem="TrS-JP-Wix" secondAttribute="width" id="qc9-yW-coZ"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="CZi-LP-4JI" secondAttribute="bottom" constant="100" id="sLI-EU-cHf"/>
+                            <constraint firstItem="Y98-pr-7CD" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="50" id="tPR-29-uzG"/>
                             <constraint firstAttribute="trailingMargin" secondItem="CZi-LP-4JI" secondAttribute="trailing" id="tzA-b0-XVw"/>
                             <constraint firstItem="Obk-k4-NU9" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="10" id="vgJ-X4-axa"/>
                             <constraint firstItem="00c-0K-Fy3" firstAttribute="leading" secondItem="7Jj-ZM-G9c" secondAttribute="trailing" constant="10" id="w0X-pd-XGG"/>
@@ -758,6 +794,10 @@
                                 <exclude reference="QCl-T4-sHh"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="6ra-Nf-3WU"/>
+                                <exclude reference="Cqn-Nz-8gx"/>
+                                <exclude reference="Ysc-c8-2bW"/>
+                                <exclude reference="a2X-1F-LqN"/>
                                 <exclude reference="QkO-UI-WEM"/>
                                 <exclude reference="wwq-d3-sIR"/>
                                 <exclude reference="21R-wd-IfQ"/>
@@ -774,10 +814,6 @@
                                 <exclude reference="8zB-cz-nob"/>
                                 <exclude reference="RK8-5i-wlt"/>
                                 <exclude reference="tzA-b0-XVw"/>
-                                <exclude reference="6ra-Nf-3WU"/>
-                                <exclude reference="Cqn-Nz-8gx"/>
-                                <exclude reference="Ysc-c8-2bW"/>
-                                <exclude reference="a2X-1F-LqN"/>
                                 <exclude reference="1bq-ZW-Jmd"/>
                                 <exclude reference="71R-gm-onr"/>
                                 <exclude reference="8Ky-5I-Uj0"/>
@@ -812,6 +848,7 @@
                         <outlet property="beaconTwoNearby" destination="TrS-JP-Wix" id="GgW-61-5Sm"/>
                         <outlet property="beaconTwoPossession" destination="7jF-bh-1s0" id="BCp-su-EPa"/>
                         <outlet property="beaconTwoStatus" destination="WcY-lE-aSO" id="0Ir-PO-oB0"/>
+                        <outlet property="bluetoothWarningView" destination="Y98-pr-7CD" id="oyK-6I-5Lg"/>
                         <outlet property="createNewGameButton" destination="yOc-bN-IVR" id="C7q-WW-gIQ"/>
                         <outlet property="hostLabel" destination="bnU-Kd-7Ky" id="PAV-8p-vKv"/>
                         <outlet property="playPauseButton" destination="9EP-1h-Cki" id="ZSS-EV-VA2"/>
