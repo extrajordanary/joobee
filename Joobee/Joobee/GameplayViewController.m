@@ -50,6 +50,7 @@ TODO:
 @property (strong, nonatomic) IBOutlet UIButton *playPauseButton;
 @property (strong, nonatomic) IBOutlet UIButton *createNewGameButton;
 @property (strong, nonatomic) IBOutlet UIView *bluetoothWarningView;
+@property (strong, nonatomic) IBOutlet UITextField *gameLength;
 
 
 @end
@@ -118,6 +119,7 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
         self.hostLabel.hidden = YES;
         self.playPauseButton.hidden = YES;
         self.createNewGameButton.hidden = YES;
+        self.gameLength.hidden = YES;
     }
     
     thisPlayer = @{ playerName : playerName, };
@@ -157,6 +159,11 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
         NSLog(@"%@", error.description);
     }];
 }
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self.gameLength resignFirstResponder];
+}
+
 #pragma mark - UI Buttons
 
 - (IBAction)resetSettings:(id)sender { // temp
@@ -624,7 +631,7 @@ static NSString* const kFlags = @"https://blistering-heat-4085.firebaseio.com/Ga
                                                 @"Team1" : @0,
                                                 @"Team2" : @0
                                             },
-                                            @"TimeRemaining" : @300,
+                                            @"TimeRemaining" : self.gameLength.text,
                                             @"GameActive" : @"NO",
                                             @"GameOver" : @"NO",
                                             @"GameHost" : @"-"
